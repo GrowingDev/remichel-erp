@@ -1,0 +1,131 @@
+$color-primary: rgb(214, 187, 146);
+$background-primary: rgb(28, 28, 28);
+$background-secondary: #f0f2f5;
+
+$menu-btn-color-default: #868686;
+$menu-btn-color-hover: rgb(214, 187, 146);
+$menu-btn-background-hover: #303030;
+
+.page-enter-active {
+  animation: bounce-in 0.8s;
+}
+.page-leave-active {
+  animation: bounce-out 0.5s;
+}
+@keyframes bounce-in {
+  0% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+@keyframes bounce-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+}
+
+main {
+  height: 100vh;
+}
+
+.btn-default {
+  border: 2px solid $background-primary;
+  background: none;
+  color: $background-primary;
+  padding: 8px 11px;
+  width: 80%;
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 16px;
+  max-width: 350px;
+  transition: all 0.5s ease;
+  cursor: pointer;
+}
+
+.btn-default:hover {
+  color: white;
+  background: $background-primary;
+}
+
+
+.page {
+  height: 100vh;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+.page-header {
+  width: 100%;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align:center;
+  h2 {
+    text-transform: uppercase;
+  }
+}
+.page-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  height: calc(100vh - 90px);
+}
+
+.table-container {
+  height: 100%;
+  background: white;
+  width:100%;
+  margin-top: 50px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.table-header {
+  position: sticky;
+  top: 0;
+  display: grid;
+  grid-template-rows: auto;
+  background: #212121;
+  color: white;
+  justify-items: stretch;
+  align-items: center;
+  font-weight: bold;
+  height:50px;
+  p {
+    margin: 10px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+}
+
+.table-item {
+  display: grid;
+  grid-template-rows: 80px;
+  color: black;
+  justify-items: stretch;
+  align-items: center;
+  cursor: pointer !important;
+  background: white;
+  label {
+    text-align: center;
+  }
+}
+.table-item:nth-child(2n + 0) {
+  background: rgb(228, 228, 228);
+}
+.table-item:hover {
+  color: white;
+  background: #303030;
+}
