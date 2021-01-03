@@ -11,7 +11,6 @@
       <no-data-found
         v-if="
           this.list.length == 0 &&
-          !doc &&
           !$fetchState.pending &&
           !$fetchState.error
         "
@@ -52,7 +51,7 @@ export default {
   data: () => {
     return {
       list: [],
-      typ: 'product',
+      typ: '',
       page: 0,
     }
   },
@@ -62,7 +61,7 @@ export default {
     },
   },
   async fetch() {
-    this.list = await fetch(`https://remichel-cc.com/list`, {
+    this.list = await fetch(`https://www.remichel-cc.com/list`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({
