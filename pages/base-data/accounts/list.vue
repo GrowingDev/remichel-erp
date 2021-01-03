@@ -62,7 +62,7 @@ export default {
     },
   },
   async fetch() {
-    this.list = await fetch(`https://185.164.5.141/list`, {
+    this.list = await fetch(`https://remichel-cc.com/list`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({
