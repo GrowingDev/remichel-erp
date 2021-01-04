@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-header">
-      <h1 v-if="this.list.length !== 0">test</h1>
+      <h1 v-if="this.list.length !== 0">Kundenaufträge</h1>
     </div>
     <div class="page-body">
       <loading-spinner v-if="$fetchState.pending" />
@@ -47,7 +47,7 @@ export default {
     return {
       doc: false,
       list: [],
-      typ: 'product',
+      typ: '',
       page: 0,
     }
   },
@@ -58,7 +58,7 @@ export default {
     },
   },
   async fetch() {
-    this.list = await fetch(`http://localhost:9093/list`, {
+    this.list = await fetch(`https://api.remichel-cc.com/list`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({
