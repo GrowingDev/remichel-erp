@@ -56,7 +56,7 @@ export default {
     },
   },
   async fetch() {
-    this.list = await fetch(`http://localhost:9091/list`, {
+    this.list = await fetch(`https://api.remichel-cc.com/list`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({
