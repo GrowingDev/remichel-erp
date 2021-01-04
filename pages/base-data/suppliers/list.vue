@@ -11,7 +11,7 @@
       <no-data-found
         v-if="
           this.list.length == 0 &&
-          !doc &&
+
           !$fetchState.pending &&
           !$fetchState.error
         "

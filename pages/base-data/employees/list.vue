@@ -11,7 +11,7 @@
       <no-data-found
         v-if="
           this.list.length == 0 &&
-          !doc &&
+
           !$fetchState.pending &&
           !$fetchState.error
         "
@@ -54,7 +54,7 @@ export default {
     return {
 
       list: [],
-      typ: 'product',
+      typ: '',
       page: 0,
     }
   },
