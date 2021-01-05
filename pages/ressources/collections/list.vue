@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-header">
-      <h1 v-if="this.list.length !== 0">kollektionen</h1>
+      <h2 v-if="this.list.length !== 0">kollektionen</h2>
     </div>
     <div class="page-body">
       <loading-spinner v-if="$fetchState.pending" />
@@ -9,16 +9,14 @@
       <error-occured v-if="$fetchState.error" :refresh="$fetch" />
 
       <no-data-found
-        v-if="
-          this.list.length == 0 &&
-          !$fetchState.pending &&
-          !$fetchState.error
-        "
+        v-if="noDataFound"
         :pages="this.onboarding"
         :action="newDocument"
       />
-      <table-collections :listItems="list"
-      v-if="!$fetchState.pending && !$fetchState.error"/>
+      <table-collections
+        :listItems="list"
+        v-if="tableAvailable"
+      />
     </div>
 
     <menu-bar
@@ -49,6 +47,18 @@ export default {
     onboarding() {
       return this.$store.state.ressources.collections.onboarding
     },
+    noDataFound(){
+      if(this.list.length == 0 && !this.$fetchState.pending && !this.$fetchState.error) {
+        return true
+      }
+      return false
+    },
+    tableAvailable(){
+      if(this.list.length !== 0 && !this.$fetchState.pending && !this.$fetchState.error){
+        return true
+      }
+      return false
+    }
   },
   data: () => {
     return {
@@ -60,8 +70,7 @@ export default {
   },
   methods: {
     newDocument() {
-      console.log('new Documents')
-      this.doc = !this.doc
+
     },
   },
   async fetch() {
