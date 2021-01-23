@@ -80,8 +80,8 @@
       </svg>
     </button>
     <button
-      v-if="newDocument"
-      @click="newDocument"
+      v-if="openDocument"
+      @click="openDocument"
       id="action-item"
       title="Neues Dokument erstellen"
     >
@@ -230,12 +230,10 @@
 </template>
 
 <script>
-
-
 export default {
   name: 'MenuBar',
   props: {
-    newDocument: Function,
+    openDocument: Function,
     saveDocument: Function,
     deleteDocument: Function,
     btnTemplateHandler: Function,
@@ -247,13 +245,17 @@ export default {
     openList: Boolean,
     noPrint: Boolean,
   },
+  data: () => {
+    return {
+      selectedDocId: "",
+    }
+  },
   methods: {
     navigateBack() {
-       this.$router.back()
+      this.$router.back()
     },
-    printDocument() {
+    printDocument() {},
 
-    },
   },
 }
 </script>

@@ -16,7 +16,7 @@
       v-if="!$fetchState.pending && !$fetchState.error"
     />
     </div>
-    <menu-bar :newDocument="newDocument" v-if="!$fetchState.pending && !$fetchState.error"/>
+    <menu-bar :openDocument="openNewDocument" v-if="!$fetchState.pending && !$fetchState.error"/>
   </div>
 </template>
 
@@ -53,6 +53,10 @@ export default {
     newDocument() {
       console.log('new Documents')
       this.doc = !this.doc
+    },
+     openNewDocument() {
+      console.log(this.$route.path)
+      this.$router.push(`/ressources/articles/new`)
     },
   },
   async fetch() {
