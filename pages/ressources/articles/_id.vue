@@ -23,13 +23,13 @@
       />
       <form-select
         label="Artikelgruppe"
-        defaultOption="Bitte wählen Sie eine Artikelgruppe aus"
+        defaultOption="Bitte wählen Sie"
         :options="groups"
         v-model="article.group"
       />
       <form-select
         label="Lieferant"
-        defaultOption="Bitte wählen Sie einen Lieferanten aus"
+        defaultOption="Bitte wählen Sie"
         :options="articleDetails.supplier"
       />
       <form-input
@@ -85,7 +85,9 @@ export default {
       return {}
     },
   },
-  methods: {},
+  methods: {
+
+  },
 
   data() {
     return {

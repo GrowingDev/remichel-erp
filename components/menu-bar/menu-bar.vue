@@ -160,7 +160,7 @@
     </button>
 
     <button
-      v-if="btnCallHandler && this.$route.params.id"
+      v-if="btnCallHandler"
       @click="btnCallHandler"
       id="action-item"
       title="Kunde anrufen"
@@ -178,7 +178,7 @@
       </svg>
     </button>
     <button
-      v-if="btnMailHandler && this.$route.params.id"
+      v-if="btnMailHandler "
       @click="btnMailHandler"
       id="action-item"
       title="Kunde per Mail kontaktieren"
