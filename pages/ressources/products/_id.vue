@@ -1,46 +1,46 @@
 <template>
   <div id="product">
     <div id="product-basedata">
-    <form-title title="produkt anlage" style="align-self: center" />
-    <div class="placeholder"></div>
-    <form-input label="Setnummer" placeholder="Setnummer" />
-    <form-input label="Bezeichnung" placeholder="Bezeichnung" />
-    <form-input label="Kollektion" placeholder="Kollektion" />
-    <form-input label="Furniture" placeholder="Furniture" />
-    <form-input label="Inlay" placeholder="Inlay" />
-    <form-input label="Etui" placeholder="Etui" />
-    <form-input label="Verpackung" placeholder="Verpackung" />
-    <form-input label="Maße Clip" placeholder="Maße Clip" />
-    <form-input label="Gewicht Clip" placeholder="Gewicht Clip" />
-    <form-input label="EAN" placeholder="EAN" />
-    <form-input label="EORI" placeholder="EORI" />
-    <h3>Kalkulation</h3>
-    <form-currency-input label="Summe Artikel" />
-    <form-currency-input label="Komplettierung" />
-    <form-currency-input label="Überverpackung" />
-    <form-currency-input label="Logistik" />
-    <div class="placeholder"></div>
-    <form-currency-input label="Gesamtsumme" />
-    <form-currency-input label="Lizenzgebühr 6%" />
-    <div class="placeholder"></div>
-    <form-currency-input label="EP Netto" />
-    <form-currency-input label="EH Spanne +100%" />
-    <form-currency-input label="Gesamt Netto" />
-    <form-currency-input label="Mehrwertsteuer 20%" />
-    <form-currency-input label="VK B2C" />
-    <div class="placeholder"></div>
-    <form-currency-input label="RECHNUNGSBETRAG B2B NETTO" />
-    <form-currency-input label="RECHNUNGSBETRAG B2B INKL. STEUER" />
-    <form-currency-input label="RECHNUNGSBETRAG B2C NETTO" />
-    <form-currency-input label="RECHNUNGSBETRAG B2C INKL. STEUER" />
-    <div class="placeholder"></div>
-    <form-images />
-    <div class="list-container">
+      <form-title title="produkt anlage" style="align-self: center" />
       <div class="placeholder"></div>
-      <h2>Produktbestandteile</h2>
+      <form-input label="Setnummer" placeholder="Setnummer" />
+      <form-input label="Bezeichnung" placeholder="Bezeichnung" />
+      <form-input label="Kollektion" placeholder="Kollektion" />
+      <form-input label="Furniture" placeholder="Furniture" />
+      <form-input label="Inlay" placeholder="Inlay" />
+      <form-input label="Etui" placeholder="Etui" />
+      <form-input label="Verpackung" placeholder="Verpackung" />
+      <form-input label="Maße Clip" placeholder="Maße Clip" />
+      <form-input label="Gewicht Clip" placeholder="Gewicht Clip" />
+      <form-input label="EAN" placeholder="EAN" />
+      <form-input label="EORI" placeholder="EORI" />
+      <h3>Kalkulation</h3>
+      <form-currency-input label="Summe Artikel" />
+      <form-currency-input label="Komplettierung" />
+      <form-currency-input label="Überverpackung" />
+      <form-currency-input label="Logistik" />
+      <div class="placeholder"></div>
+      <form-currency-input label="Gesamtsumme" />
+      <form-currency-input label="Lizenzgebühr 6%" />
+      <div class="placeholder"></div>
+      <form-currency-input label="EP Netto" />
+      <form-currency-input label="EH Spanne +100%" />
+      <form-currency-input label="Gesamt Netto" />
+      <form-currency-input label="Mehrwertsteuer 20%" />
+      <form-currency-input label="VK B2C" />
+      <div class="placeholder"></div>
+      <form-currency-input label="RECHNUNGSBETRAG B2B NETTO" />
+      <form-currency-input label="RECHNUNGSBETRAG B2B INKL. STEUER" />
+      <form-currency-input label="RECHNUNGSBETRAG B2C NETTO" />
+      <form-currency-input label="RECHNUNGSBETRAG B2C INKL. STEUER" />
+      <div class="placeholder"></div>
+      <form-images />
+      <div class="list-container">
+        <div class="placeholder"></div>
+        <h2>Produktbestandteile</h2>
+      </div>
+      <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
     </div>
-    <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
-  </div>
   </div>
 </template>
 
@@ -84,13 +84,20 @@ export default {
 <style lang="scss" scoped >
 #product {
   padding: 100px;
-  text-align: center;
+  text-align: start;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  float:right;
+  align-items: center;
+  float: right;
   width: calc(100vw - 320px);
 
+  h3 {
+    justify-self: flex-start;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    margin-left:5px;
+  }
   #product-basedata {
     background: white;
     padding: 50px;

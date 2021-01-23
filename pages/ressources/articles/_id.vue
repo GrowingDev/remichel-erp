@@ -153,13 +153,20 @@ export default {
 <style lang="scss" scoped >
 #article {
   padding: 100px;
-  text-align: center;
+  text-align: start;
   display: flex;
   flex-direction: row;
   justify-content: center;
-  float:right;
+  align-items: center;
+  float: right;
   width: calc(100vw - 320px);
 
+  h3 {
+    justify-self: flex-start;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    margin-left:5px;
+  }
   #article-basedata {
     background: white;
     padding: 50px;
