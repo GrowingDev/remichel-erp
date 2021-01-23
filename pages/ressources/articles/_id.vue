@@ -1,10 +1,7 @@
 <template>
   <div id="article">
     <div id="article-basedata">
-      <form-title
-        title="artikel anlage"
-        style="align-self: center"
-      />
+      <form-title title="artikel anlage" style="align-self: center" />
       <div class="placeholder"></div>
       <form-input
         label="artikelnummer"
@@ -85,9 +82,7 @@ export default {
       return {}
     },
   },
-  methods: {
-
-  },
+  methods: {},
 
   data() {
     return {
@@ -165,7 +160,7 @@ export default {
     justify-self: flex-start;
     margin-bottom: 2rem;
     margin-top: 2rem;
-    margin-left:5px;
+    margin-left: 5px;
   }
   #article-basedata {
     background: white;
@@ -173,5 +168,8 @@ export default {
     width: 210mm;
     text-transform: uppercase;
   }
+}
+.placeholder {
+  margin: 25px;
 }
 </style>

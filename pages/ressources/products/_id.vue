@@ -105,4 +105,7 @@ export default {
     text-transform: uppercase;
   }
 }
+.placeholder {
+  margin: 25px;
+}
 </style>
