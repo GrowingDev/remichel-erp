@@ -6,7 +6,12 @@
       </p>
     </div>
 
-    <div class="table-item grid-cols" v-for="listItem in listItems" :key="listItem.id">
+    <div
+      class="table-item grid-cols"
+      v-for="listItem in listItems"
+      :key="listItem.id"
+      @click="openArticle(listItem.ArticleID)"
+    >
       <label>{{ listItem.ArticleID }}</label>
       <label>{{ listItem.Title }}</label>
       <label>{{ listItem.Description }}</label>
@@ -26,8 +31,9 @@ export default {
     listItems: Array,
   },
   methods: {
-    openListItem(id) {
-      this.$router.push(`${id}`)
+    openArticle(id) {
+      console.log(id)
+      this.$router.push(`/ressources/articles/${id}`)
     },
   },
   data: () => {
@@ -46,7 +52,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.grid-cols{
+.grid-cols {
   grid-template-columns: repeat(6, 1fr);
 }
 </style>

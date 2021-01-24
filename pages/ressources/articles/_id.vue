@@ -6,12 +6,12 @@
       <form-input
         label="artikelnummer"
         placeholder="Artikelnummer"
-        v-model="article.articleID"
+        :modelValue="form.articleID"
       />
       <form-input
         label="Artikel"
         placeholder="Artikel"
-        v-model="article.title"
+        v-model="form.title"
       />
       <form-input
         label="Beschreibung"
@@ -32,36 +32,18 @@
       <form-input
         label="Externe Artikelnummer"
         placeholder="Externe Artikelnummer"
-        v-model="articleDetails.supplierArticleID"
       />
-      <form-input label="EAN" placeholder="EAN" v-model="articleDetails.ean" />
+      <form-input label="EAN" placeholder="EAN" />
       <h3>Kalkulation</h3>
-      <form-currency-input
-        label="Einkaufspreis"
-        placeholder="Einkaufspreis"
-        v-model="calculation.purchasingPrice_01"
-      />
-      <form-currency-input
-        label="Aufschlag"
-        placeholder="Aufschlag"
-        v-model="calculation.surcharge"
-      />
-      <form-currency-input
-        label="Netto"
-        placeholder="Netto"
-        v-model="calculation.net"
-      />
+      <form-currency-input label="Einkaufspreis" placeholder="Einkaufspreis" />
+      <form-currency-input label="Aufschlag" placeholder="Aufschlag" />
+      <form-currency-input label="Netto" placeholder="Netto" />
       <form-currency-input
         label="Steuersatz in Prozent z.B 10%"
         placeholder="Steuersatz in Prozent z.B 10%"
-        v-model="calculation.tax"
       />
-      <form-currency-input
-        label="Gesamt"
-        placeholder="Gesamt"
-        v-model="calculation.total"
-      />
-      <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
+      <form-currency-input label="Gesamt" placeholder="Gesamt" />
+      <menu-bar :saveDocument="saveDocument" />
     </div>
   </div>
 </template>
@@ -76,21 +58,39 @@ import menuBar from '~/components/menu-bar/menu-bar.vue'
 export default {
   name: 'ArticlePage',
   components: { menuBar, FormInput, FormSelect, FormCurrencyInput, FormTitle },
-
-  computed: {
-    article() {
-      return {}
-    },
+  mounted() {
+    if (this.$route.params.id !== 'new') {
+      this.list = fetch(`http://localhost:9091/get`, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({
+          ArticleID: parseInt(this.$route.params.id),
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          this.article = res
+          console.log(this.article)
+        })
+    }
   },
-  methods: {},
-
+  computed: {
+    form() {
+      return this.article
+    }
+  },
   data() {
     return {
+      article: {
+        articleID: "",
+        title: "",
+        description: "",
+        group: "",
+      },
       articleDetails: {
         supplier: '',
         supplierArticleID: '',
         ean: '',
-        net: '',
       },
       calculation: {
         purchasingPrice_01: '',
@@ -141,6 +141,11 @@ export default {
         },
       ],
     }
+  },
+  methods: {
+    saveDocument() {
+      console.log(this.article)
+    },
   },
 }
 </script>

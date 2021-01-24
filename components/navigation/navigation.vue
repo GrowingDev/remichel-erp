@@ -59,13 +59,13 @@ export default {
       if (e.key.match(regexp)) {
         if (!this.subNavigation) {
           if (e.key != '0') {
-            this.$store.commit('navigation/selectSubNavigation', e.key - 1)
+           // this.$store.commit('navigation/selectSubNavigation', e.key - 1)
           }
         } else {
           if (e.key == '0') {
-            this.$store.commit('navigation/toogleSubNavigation')
+           // this.$store.commit('navigation/toogleSubNavigation')
           } else {
-            this.$store.commit('navigation/navigateTo', parseInt(e.key))
+           // this.$store.commit('navigation/navigateTo', parseInt(e.key))
           }
         }
       }
