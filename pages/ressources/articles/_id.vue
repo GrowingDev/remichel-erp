@@ -166,7 +166,7 @@ export default {
     },
     deleteDocument() {
       this.list = fetch(
-        `${process.env.BACKEND_URL || `${process.env.BACKEND_URL || 'http://localhost:9091'}/delete`,
+        `${process.env.BACKEND_URL || 'http://localhost:9091'}/delete`,
         {
           method: 'POST',
           mode: 'cors',
