@@ -147,7 +147,7 @@ export default {
   methods: {
     saveDocument() {
       console.log(this.article)
-      this.list = fetch(`https://api.remichel-cc.com/create`, {
+      this.list = fetch(`${process.env.BACKEND_URL || 'http://localhost:9091'}/create`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
@@ -166,7 +166,7 @@ export default {
     },
     deleteDocument() {
       this.list = fetch(
-        `${process.env.BACKEND_URL || 'http://localhost:9091'}/delete`,
+        `${process.env.BACKEND_URL || `${process.env.BACKEND_URL || 'http://localhost:9091'}/delete`,
         {
           method: 'POST',
           mode: 'cors',
