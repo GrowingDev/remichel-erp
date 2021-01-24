@@ -154,6 +154,7 @@ export default {
         .then((res) => {
           this.article = res
           console.log(this.article)
+          this.$router.back()
         })
     },
   },
