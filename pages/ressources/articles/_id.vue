@@ -6,12 +6,12 @@
       <form-input
         label="artikelnummer"
         placeholder="Artikelnummer"
-        :modelValue="form.articleID"
+        v-model="article.articleID"
       />
       <form-input
         label="Artikel"
         placeholder="Artikel"
-        v-model="form.title"
+        v-model="article.title"
       />
       <form-input
         label="Beschreibung"
@@ -60,7 +60,7 @@ export default {
   components: { menuBar, FormInput, FormSelect, FormCurrencyInput, FormTitle },
   mounted() {
     if (this.$route.params.id !== 'new') {
-      this.list = fetch(`http://localhost:9091/get`, {
+      this.list = fetch(`https://api.remichel-cc.com/get`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
@@ -74,18 +74,13 @@ export default {
         })
     }
   },
-  computed: {
-    form() {
-      return this.article
-    }
-  },
   data() {
     return {
       article: {
-        articleID: "",
-        title: "",
-        description: "",
-        group: "",
+        articleID: 'test',
+        title: 'hghg',
+        description: '',
+        group: '',
       },
       articleDetails: {
         supplier: '',
@@ -145,6 +140,21 @@ export default {
   methods: {
     saveDocument() {
       console.log(this.article)
+      this.list = fetch(`https://api.remichel-cc.com/create`, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({
+          Title: this.article.title,
+          Description: this.article.description,
+          Group: this.article.group,
+          Typ: ""
+        }),
+      })
+        .then((res) => res.json())
+        .then((res) => {
+          this.article = res
+          console.log(this.article)
+        })
     },
   },
 }

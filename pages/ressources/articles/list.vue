@@ -4,19 +4,24 @@
       <h2 v-if="this.list.length !== 0">artikel</h2>
     </div>
     <div class="page-body">
-       <loading-spinner v-if="$fetchState.pending"/>
-       <error-occured v-if="$fetchState.error" :refresh="$fetch"/>
+      <loading-spinner v-if="$fetchState.pending" />
+      <error-occured v-if="$fetchState.error" :refresh="$fetch" />
       <no-data-found
-        v-if="this.list.length == 0 && !$fetchState.pending && !$fetchState.error"
+        v-if="
+          this.list.length == 0 && !$fetchState.pending && !$fetchState.error
+        "
         :pages="this.onboarding"
         :action="newDocument"
       />
-       <table-articles
-      :listItems="list"
+      <table-articles
+        :listItems="list"
+        v-if="!$fetchState.pending && !$fetchState.error"
+      />
+    </div>
+    <menu-bar
+      :openDocument="openNewDocument"
       v-if="!$fetchState.pending && !$fetchState.error"
     />
-    </div>
-    <menu-bar :openDocument="openNewDocument" v-if="!$fetchState.pending && !$fetchState.error"/>
   </div>
 </template>
 
@@ -70,6 +75,7 @@ export default {
     })
       .then((res) => res.json())
       .then((res) => {
+        console.log(res)
         return [...res.ArticleList]
       })
   },

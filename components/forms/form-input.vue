@@ -1,11 +1,11 @@
 <template>
   <label class="base-input">
-    <div class="base-input-description"> {{ label }}</div>
+    <div class="base-input-description">{{ label }}</div>
     <input
       class="base-input-input"
       v-bind="$attrs"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      :value="value"
+      @input="$emit('update', $event.target.value)"
     />
   </label>
 </template>
@@ -13,7 +13,11 @@
 <script>
 export default {
   name: 'FormInput',
-  props: ['modelValue', 'label'],
+  props: ['value', 'label'],
+    model: {
+    prop: "value",
+    event: "update"
+  },
 }
 </script>
 
