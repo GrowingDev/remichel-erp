@@ -5,7 +5,7 @@
     </div>
     <div class="page-body">
       <loading-spinner v-if="$fetchState.pending" />
-      <error-occured v-if="$fetchState.error" :refresh="$fetch" />
+      <error-occured v-if="$fetchState.error " :refresh="$fetch" />
       <no-data-found
         v-if="
           this.list.length == 0 && !$fetchState.pending && !$fetchState.error
@@ -15,7 +15,7 @@
       />
       <table-articles
         :listItems="list"
-        v-if="!$fetchState.pending && !$fetchState.error"
+        v-if="this.list.length !== 0 && !$fetchState.pending && !$fetchState.error"
       />
     </div>
     <menu-bar
@@ -65,7 +65,8 @@ export default {
     },
   },
   async fetch() {
-    this.list = await fetch(`https://api.remichel-cc.com/list`, {
+    console.log(process.env.ARTICLE_SERVICE)
+    this.list = await fetch(`${process.env.ARTICLE_SERVICE}/list`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({
@@ -75,8 +76,12 @@ export default {
     })
       .then((res) => res.json())
       .then((res) => {
-        console.log(res)
-        return [...res.ArticleList]
+    if(res.ArticleList == null) {
+      return []
+    }
+   return [...res.ArticleList]
+
+
       })
   },
 }

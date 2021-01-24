@@ -1,22 +1,27 @@
 <template>
   <label class="form-currency-input">
-    <div class="currency-input-description"> {{ label }}</div>
+    <div class="currency-input-description">{{ label }}</div>
     <input
       class="currency-input-input"
       v-bind="$attrs"
       placeholder="00.00"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
-    /><p>€</p>
+      :value="value"
+      @input="$emit('update', $event.target.value)"
+    />
+    <p>€</p>
   </label>
 </template>
 
 <script>
 export default {
   name: 'FormCurrencyInput',
-  props: ['modelValue', 'label'],
+  props: ['value', 'label'],
+  model: {
+    prop: 'value',
+    event: 'update',
+  },
   watch: {
-    modelValue(value) {
+    value(value) {
       return parseFloat(value)
     },
   },

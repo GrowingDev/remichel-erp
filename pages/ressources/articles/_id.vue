@@ -27,23 +27,40 @@
       <form-select
         label="Lieferant"
         defaultOption="Bitte wählen Sie"
-        :options="articleDetails.supplier"
+        :options="article.supplierID"
       />
       <form-input
         label="Externe Artikelnummer"
         placeholder="Externe Artikelnummer"
         v-model="article.ownerID"
       />
-      <form-input label="EAN" placeholder="EAN" v-model="article.ean"/>
+      <form-input label="EAN" placeholder="EAN" v-model="article.ean" />
       <h3>Kalkulation</h3>
-      <form-currency-input label="Einkaufspreis" placeholder="Einkaufspreis" />
-      <form-currency-input label="Aufschlag" placeholder="Aufschlag" />
-      <form-currency-input label="Netto" placeholder="Netto" />
+      <form-currency-input
+        label="Einkaufspreis"
+        placeholder="Einkaufspreis"
+        v-model="article.ep"
+      />
+      <form-currency-input
+        label="Aufschlag"
+        placeholder="Aufschlag"
+        v-model="article.surcharge"
+      />
+      <form-currency-input
+        label="Netto"
+        placeholder="Netto"
+        v-model="article.net"
+      />
       <form-currency-input
         label="Steuersatz in Prozent z.B 10%"
         placeholder="Steuersatz in Prozent z.B 10%"
+        v-model="article.tax"
       />
-      <form-currency-input label="Gesamt" placeholder="Gesamt" />
+      <form-currency-input
+        label="Gesamt"
+        placeholder="Gesamt"
+        v-model="article.total"
+      />
       <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
     </div>
   </div>
@@ -63,20 +80,16 @@ export default {
     console.log(process.env.BACKEND_URL)
 
     if (this.$route.params.id !== 'new') {
-      this.list = fetch(
-        `https://api.remichel-cc.com/get`,
-        {
-          method: 'POST',
-          mode: 'cors',
-          body: JSON.stringify({
-            ArticleID: parseInt(this.$route.params.id),
-          }),
-        }
-      )
+      fetch(`${process.env.ARTICLE_SERVICE}/get`, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({
+          ArticleID: parseInt(this.$route.params.id),
+        }),
+      })
         .then((res) => res.json())
         .then((res) => {
           this.article = res
-          console.log(this.article)
         })
     }
   },
@@ -87,18 +100,14 @@ export default {
         title: '',
         description: '',
         group: '',
-      },
-
-      articleDetails: {
-        supplier: '',
-        supplierArticleID: '',
+        supplierID: '',
+        ownerID: '',
         ean: '',
-      },
-      calculation: {
-        purchasingPrice_01: '',
-        surcharge: '',
-        tax: '',
-        total: '',
+        ep: 0,
+        surcharge: 0,
+        net: 0,
+        tax: 0,
+        total: 0,
       },
       groups: [
         {
@@ -147,14 +156,21 @@ export default {
   methods: {
     saveDocument() {
       console.log(this.article)
-      this.list = fetch(`https://api.remichel-cc.com/create`, {
+      this.list = fetch(`${process.env.ARTICLE_SERVICE}/create`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
           Title: this.article.title,
           Description: this.article.description,
           Group: this.article.group,
-          Typ: '',
+          supplierID: this.article.supplierID,
+          ownerID: this.article.ownerID,
+          ean: this.article.ean,
+          ep: parseFloat(this.article.ep),
+          surcharge: parseFloat(this.article.surcharge),
+          net: parseFloat(this.article.net),
+          tax: parseFloat(this.article.tax),
+          total: parseFloat(this.article.total),
         }),
       })
         .then((res) => res.json())
@@ -165,16 +181,13 @@ export default {
         })
     },
     deleteDocument() {
-      this.list = fetch(
-        `https://api.remichel-cc.com/delete`,
-        {
-          method: 'POST',
-          mode: 'cors',
-          body: JSON.stringify({
-            ArticleID: parseInt(this.$route.params.id),
-          }),
-        }
-      )
+      this.list = fetch(`${process.env.ARTICLE_SERVICE}/delete`, {
+        method: 'POST',
+        mode: 'cors',
+        body: JSON.stringify({
+          ArticleID: parseInt(this.$route.params.id),
+        }),
+      })
         .then((res) => res.json())
         .then((res) => {
           console.log(res)

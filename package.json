@@ -14,7 +14,8 @@
     "@nuxtjs/dotenv": "^1.4.1",
     "@nuxtjs/pwa": "^3.0.2",
     "core-js": "^3.6.5",
-    "nuxt": "^2.14.6"
+    "nuxt": "^2.14.6",
+    "vue-currency-input": "^1.22.4"
   },
   "devDependencies": {
     "@vue/test-utils": "^1.1.0",
