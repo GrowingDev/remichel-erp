@@ -43,7 +43,7 @@
         placeholder="Steuersatz in Prozent z.B 10%"
       />
       <form-currency-input label="Gesamt" placeholder="Gesamt" />
-      <menu-bar :saveDocument="saveDocument" />
+      <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
     </div>
   </div>
 </template>
@@ -59,14 +59,19 @@ export default {
   name: 'ArticlePage',
   components: { menuBar, FormInput, FormSelect, FormCurrencyInput, FormTitle },
   mounted() {
+    console.log(process.env.BACKEND_URL)
+
     if (this.$route.params.id !== 'new') {
-      this.list = fetch(`https://api.remichel-cc.com/get`, {
-        method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify({
-          ArticleID: parseInt(this.$route.params.id),
-        }),
-      })
+      this.list = fetch(
+        `${process.env.BACKEND_URL || 'http://localhost:9091'}/get`,
+        {
+          method: 'POST',
+          mode: 'cors',
+          body: JSON.stringify({
+            ArticleID: parseInt(this.$route.params.id),
+          }),
+        }
+      )
         .then((res) => res.json())
         .then((res) => {
           this.article = res
@@ -77,11 +82,12 @@ export default {
   data() {
     return {
       article: {
-        articleID: 'test',
-        title: 'hghg',
+        articleID: '',
+        title: '',
         description: '',
         group: '',
       },
+
       articleDetails: {
         supplier: '',
         supplierArticleID: '',
@@ -147,13 +153,30 @@ export default {
           Title: this.article.title,
           Description: this.article.description,
           Group: this.article.group,
-          Typ: ""
+          Typ: '',
         }),
       })
         .then((res) => res.json())
         .then((res) => {
           this.article = res
           console.log(this.article)
+          this.$router.back()
+        })
+    },
+    deleteDocument() {
+      this.list = fetch(
+        `${process.env.BACKEND_URL || 'http://localhost:9091'}/delete`,
+        {
+          method: 'POST',
+          mode: 'cors',
+          body: JSON.stringify({
+            ArticleID: parseInt(this.$route.params.id),
+          }),
+        }
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res)
           this.$router.back()
         })
     },
