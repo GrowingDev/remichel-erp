@@ -32,8 +32,9 @@
       <form-input
         label="Externe Artikelnummer"
         placeholder="Externe Artikelnummer"
+        v-model="article.ownerID"
       />
-      <form-input label="EAN" placeholder="EAN" />
+      <form-input label="EAN" placeholder="EAN" v-model="article.ean"/>
       <h3>Kalkulation</h3>
       <form-currency-input label="Einkaufspreis" placeholder="Einkaufspreis" />
       <form-currency-input label="Aufschlag" placeholder="Aufschlag" />
