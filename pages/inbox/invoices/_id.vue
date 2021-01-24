@@ -2,9 +2,7 @@
   <div id="incoming-invoice">
     <div id="incoming-invoice-basedata">
       <form-title
-        preTitle="Rechnungs"
-        title="anlage"
-        isBlack
+        title="rechnungs anlage"
         style="align-self: center"
       />
       <div class="placeholder"></div>
