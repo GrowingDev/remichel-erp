@@ -4,8 +4,8 @@
     <select
       class="base-select-select"
       v-bind="$attrs"
-      :value="modelValue"
-      @change="$emit('update:modelValue', $event.target.value)"
+      :value="value"
+      @change="$emit('update', $event.target.value)"
     >
       <option disabled value="">{{ defaultOption }}</option>
       <option
@@ -23,9 +23,10 @@
 export default {
   name: 'FormSelect',
 
-  props: ['modelValue', 'defaultOption', 'label', 'options'],
-  mounted() {
-    console.log(this.modelValue)
+  props: ['value', 'defaultOption', 'label', 'options'],
+   model: {
+    prop: "value",
+    event: "update"
   },
 }
 </script>
