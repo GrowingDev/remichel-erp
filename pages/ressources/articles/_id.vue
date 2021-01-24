@@ -64,7 +64,7 @@ export default {
 
     if (this.$route.params.id !== 'new') {
       this.list = fetch(
-        `${process.env.BACKEND_URL || 'http://localhost:9091'}/get`,
+        `https://api.remichel-cc.com/get`,
         {
           method: 'POST',
           mode: 'cors',
@@ -147,7 +147,7 @@ export default {
   methods: {
     saveDocument() {
       console.log(this.article)
-      this.list = fetch(`${process.env.BACKEND_URL || 'http://localhost:9091'}/create`, {
+      this.list = fetch(`https://api.remichel-cc.com/create`, {
         method: 'POST',
         mode: 'cors',
         body: JSON.stringify({
@@ -166,7 +166,7 @@ export default {
     },
     deleteDocument() {
       this.list = fetch(
-        `${process.env.BACKEND_URL || 'http://localhost:9091'}/delete`,
+        `https://api.remichel-cc.com/delete`,
         {
           method: 'POST',
           mode: 'cors',
