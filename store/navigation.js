@@ -128,7 +128,7 @@ export const state = () => ({
         {
           index: '1',
           title: 'rechnungen',
-          route: '/inbox/invoices',
+          route: '/inbox/invoices/list',
         },
         {
           index: '0',

@@ -19,7 +19,7 @@
         :action="newDocument"
       />
     </div>
-    <menu-bar :newDocument="newDocument" />
+    <menu-bar :openDocument="openNewDocument" />
   </div>
 </template>
 
@@ -30,7 +30,7 @@ import MenuBar from '~/components/menu-bar/menu-bar'
 import LoadingSpinner from '~/components/pages/loading-spinner'
 import ErrorOccured from '@/components/pages/error-occured'
 export default {
-  name: 'articles',
+  name: 'list',
   components: {
     NoDataFound,
     PageTitle,
@@ -56,20 +56,12 @@ export default {
       console.log('new Documents')
       this.doc = !this.doc
     },
+     openNewDocument() {
+      this.$router.push(`/inbox/invoices/new`)
+    },
   },
   async fetch() {
-    this.list = await fetch(`http://localhost:9093/list`, {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({
-        Typ: this.typ,
-        Page: this.page,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        return [...res.ArticleList]
-      })
+   return []
   },
 }
 </script>
