@@ -20,7 +20,7 @@
       />
 
       <table-products :listItems="list"
-      v-if="!$fetchState.pending && !$fetchState.error"/>
+      v-if="this.list.length != 0 && !$fetchState.pending && !$fetchState.error"/>
     </div>
     <menu-bar
       :openDocument="openNewDocument"
@@ -65,18 +65,7 @@ export default {
     },
   },
   async fetch() {
-    this.list = await fetch(`https://api.remichel-cc.com/list`, {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({
-        Typ: this.typ,
-        Page: this.page,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        return [...res.ArticleList]
-      })
+    this.list = []
   },
 }
 </script>

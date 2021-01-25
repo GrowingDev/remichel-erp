@@ -66,23 +66,7 @@ export default {
   },
   async fetch() {
     console.log(process.env.ARTICLE_SERVICE)
-    this.list = await fetch(`${process.env.ARTICLE_SERVICE}/list`, {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({
-        Typ: this.typ,
-        Page: this.page,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-    if(res.ArticleList == null) {
-      return []
-    }
-   return [...res.ArticleList]
-
-
-      })
+    this.list = []
   },
 }
 </script>
