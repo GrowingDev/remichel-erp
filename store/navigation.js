@@ -88,32 +88,32 @@ export const state = () => ({
         {
           index: '1',
           title: 'rechnungen',
-          route: '/outbox/invoices',
+          route: '/outbox/invoices/list',
         },
         {
           index: '2',
           title: 'lieferscheine',
-          route: '/outbox/shipping-notes',
+          route: '/outbox/shipping-notes/list',
         },
         {
           index: '3',
           title: 'mahnungen',
-          route: '/outbox/payment-reminders',
+          route: '/outbox/payment-reminders/list',
         },
         {
           index: '4',
           title: 'auftragsbestätigungen',
-          route: '/outbox/order-confirmations',
+          route: '/outbox/order-confirmations/list',
         },
         {
           index: '5',
           title: 'angebote',
-          route: '/outbox/deals',
+          route: '/outbox/deals/list',
         },
         {
           index: '6',
           title: 'geschäftsbriefe',
-          route: '/outbox/business-letters',
+          route: '/outbox/business-letters/list',
         },
         {
           index: '0',
