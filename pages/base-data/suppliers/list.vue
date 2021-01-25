@@ -10,10 +10,7 @@
 
       <no-data-found
         v-if="
-          this.list.length == 0 &&
-
-          !$fetchState.pending &&
-          !$fetchState.error
+          this.list.length == 0 && !$fetchState.pending && !$fetchState.error
         "
         :pages="this.onboarding"
         :action="newDocument"
@@ -21,11 +18,11 @@
 
       <table-suppliers
         :listItems="list"
-        v-if="!$fetchState.pending && !$fetchState.error"
+        v-if="this.list.length !== 0 && !$fetchState.pending && !$fetchState.error"
       />
     </div>
     <menu-bar
-      :newDocument="newDocument"
+     :openDocument="openNewDocument"
       v-if="!$fetchState.pending && !$fetchState.error"
     />
   </div>
@@ -62,23 +59,12 @@ export default {
     }
   },
   methods: {
-    newDocument() {
-
+    openNewDocument() {
+         this.$router.push(`/base-data/suppliers/new`)
     },
   },
   async fetch() {
-    this.list = await fetch(`https://api.remichel-cc.com/list`, {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({
-        Typ: this.typ,
-        Page: this.page,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        return [...res.ArticleList]
-      })
+    this.list = []
   },
 }
 </script>
