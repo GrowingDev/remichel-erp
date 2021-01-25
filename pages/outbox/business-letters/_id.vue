@@ -12,6 +12,7 @@
       <form-input label="Ort" placeholder="Ort" />
       <form-input label="Land" placeholder="Land" />
       <h3>Nachricht</h3>
+      <form-texarea />
       <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
     </div>
   </div>
@@ -21,9 +22,10 @@
 import FormTitle from '~/components/forms/form-title.vue'
 import FormInput from '~/components/forms/form-input.vue'
 import MenuBar from '~/components/menu-bar/menu-bar.vue'
+import FormTexarea from '~/components/forms/form-texarea.vue'
 
 export default {
-  components: { FormTitle, MenuBar, FormInput },
+  components: { FormTitle, MenuBar, FormInput, FormTexarea },
   name: 'BusinessLetter',
 
   methods: {

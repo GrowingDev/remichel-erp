@@ -1,10 +1,10 @@
 <template>
-  <div class="base-textarea">
+  <div class="form-textarea">
     <textarea
-      class="base-text-area"
+      class="form-text-area"
       v-bind="$attrs"
-      :value="modelValue"
-      @input="$emit('update:modelValue', $event.target.value)"
+      :value="value"
+      @input="$emit('update', $event.target.value)"
     />
   </div>
 </template>
@@ -12,16 +12,20 @@
 <script>
 export default {
   name: 'BaseTextArea',
-  props: ['modelValue', 'label'],
+  props: ['value', 'label'],
+  model: {
+    prop: 'value',
+    event: 'update',
+  },
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
-.base-textarea {
+.form-textarea {
   margin-right: 10px;
 }
-.base-text-area {
+.form-text-area {
   border: none;
   background: #efefef;
 

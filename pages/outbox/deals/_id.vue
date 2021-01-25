@@ -18,9 +18,9 @@
       <form-input label="Ort" placeholder="Ort" />
       <form-input label="Land" placeholder="Land" />
       <h3>Nachricht</h3>
-
+      <form-texarea />
       <div class="list-container">
-        <h2>Produkte</h2>
+        <h3>Produkte</h3>
       </div>
       <menu-bar
         :updateList="updateList"
