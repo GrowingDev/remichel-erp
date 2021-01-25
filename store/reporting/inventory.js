@@ -2,7 +2,7 @@ export const state = () => ({
   list: [],
   onboarding: [
     {
-      title: 'no items found',
+      title: 'Das Inventar ist leer',
       description:
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deinen ersten Lagerbestand anzulegen.',
       action: {

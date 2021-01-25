@@ -158,12 +158,12 @@ export const state = () => ({
         {
           index: '1',
           title: 'lagerstand',
-          route: '/reporting/inventory',
+          route: '/reporting/inventory/list',
         },
         {
           index: '2',
           title: 'depots',
-          route: '/reporting/depots',
+          route: '/reporting/depots/list',
         },
         {
           index: '0',
