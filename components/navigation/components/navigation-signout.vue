@@ -1,5 +1,5 @@
 <template>
-  <button class="btn-menu-back">
+  <a class="btn-menu-back" href="https://remichelgroup.com">
     <div class="button-content">
       <div class="link-index">
         <svg
@@ -14,9 +14,9 @@
           />
         </svg>
       </div>
-      <a href="https://remichelgroup.com">Abmelden</a>
+     Abmelden
     </div>
-  </button>
+  </a>
 </template>
 
 <script>
