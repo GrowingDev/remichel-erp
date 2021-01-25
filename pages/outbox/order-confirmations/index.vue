@@ -3,4 +3,4 @@
  <NuxtChild  />
 </main>
 </template>
-<script>
+
