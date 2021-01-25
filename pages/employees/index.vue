@@ -1,8 +1,6 @@
 <template>
-  <div>
-
-
-  </div>
-
-
+<main>
+ <NuxtChild  />
+</main>
 </template>
+<script>
