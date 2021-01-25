@@ -129,3 +129,31 @@ main {
   color: white;
   background: #303030;
 }
+
+
+.doc {
+  padding: 100px;
+  text-align: start;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  float: right;
+  width: calc(100vw - 320px);
+
+  h3 {
+    justify-self: flex-start;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
+    margin-left: 5px;
+  }
+  .doc-basedata {
+    background: white;
+    padding: 50px;
+    width: 210mm;
+    text-transform: uppercase;
+  }
+}
+.placeholder {
+  margin: 25px;
+}

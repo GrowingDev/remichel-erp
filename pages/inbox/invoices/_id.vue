@@ -35,7 +35,7 @@
       <form-currency-input label="Gesamtpreis Netto" />
       <form-currency-input label="Gesamtpreis Brutto" />
       <div class="list-container">
-        <h2>Rechnungsposten</h2>
+
       </div>
       <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
     </div>

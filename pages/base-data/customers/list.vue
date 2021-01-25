@@ -22,7 +22,7 @@
       v-if="!$fetchState.pending && !$fetchState.error && this.list.length !== 0"
     />
     </div>
-   <menu-bar :newDocument="newDocument" v-if="!$fetchState.pending && !$fetchState.error"/>
+   <menu-bar :openDocument="openNewDocument" v-if="!$fetchState.pending && !$fetchState.error"/>
   </div>
 </template>
 
@@ -58,25 +58,13 @@ export default {
     }
   },
   methods: {
-    newDocument() {
+    openNewDocument() {
       console.log('new Documents')
-
+    this.$router.push(`/base-data/customers/new`)
     },
   },
   async fetch() {
-    this.list = await fetch(`https://api.remichel-cc.com/list`, {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({
-        Typ: this.typ,
-        Page: this.page,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-
-        return [...res.ArticleList]
-      })
+   return []
   },
 }
 </script>
