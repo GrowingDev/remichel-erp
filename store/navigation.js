@@ -143,7 +143,7 @@ export const state = () => ({
         {
           index: '1',
           title: 'mitarbeiter',
-          route: '/employees/employees',
+          route: '/employees/employees/list',
         },
         {
           index: '0',
