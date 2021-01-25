@@ -2,7 +2,7 @@ export const state = () => ({
   list: [],
   onboarding: [
     {
-      title: 'no customers found',
+      title: 'Keine Kunden gefunden',
       description:
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deinen ersten Kunden anzulegen.',
       action: {

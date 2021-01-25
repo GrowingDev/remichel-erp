@@ -2,7 +2,7 @@ export const state = () => ({
   list: [],
   onboarding: [
     {
-      title: 'no articles found',
+      title: 'Keine Artikel gefunden',
       description:
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deinen ersten Artikel anzulegen.',
       action: {

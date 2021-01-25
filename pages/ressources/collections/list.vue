@@ -20,7 +20,7 @@
     </div>
 
     <menu-bar
-      :newDocument="newDocument"
+      :openDocument="openNewDocument"
       v-if="!$fetchState.pending && !$fetchState.error"
     />
   </div>
@@ -69,23 +69,12 @@ export default {
     }
   },
   methods: {
-    newDocument() {
-
+    openNewDocument() {
+  this.$router.push(`/ressources/collections/new`)
     },
   },
   async fetch() {
-    this.list = await fetch('https://api.remichel-cc.com/list', {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({
-        Typ: this.typ,
-        Page: this.page,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        return [...res.ArticleList]
-      })
+    this.list = []
   },
 }
 </script>

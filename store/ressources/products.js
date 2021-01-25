@@ -2,7 +2,7 @@ export const state = () => ({
   list: [],
   onboarding: [
     {
-      title: 'no products found',
+      title: 'Keine Verkaufsartikel gefunden',
       description:
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um dein erstes Produkt anzulegen.',
       action: {

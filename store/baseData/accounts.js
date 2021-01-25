@@ -2,7 +2,7 @@ export const state = () => ({
   list: [],
   onboarding: [
     {
-      title: 'no accounts found',
+      title: 'Keine Accounts gefunden',
       description:
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deinen ersten Account anzulegen.',
       action: {

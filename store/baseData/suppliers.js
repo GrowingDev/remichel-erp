@@ -2,7 +2,7 @@ export const state = () => ({
   list: [],
   onboarding: [
     {
-      title: 'no suppliers found',
+      title: 'Keine Lieferanten gefunden',
       description:
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deinen ersten Lieferanten anzulegen.',
       action: {

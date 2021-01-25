@@ -2,7 +2,7 @@ export const state = () => ({
   list: [],
   onboarding: [
     {
-      title: 'no collections found',
+      title: 'Keine Kollektionen gefunden',
       description:
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deine erste Kollektion anzulegen.',
       action: {

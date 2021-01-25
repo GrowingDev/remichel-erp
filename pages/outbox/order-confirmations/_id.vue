@@ -2,7 +2,7 @@
   <div class="doc">
     <div class="doc-basedata">
       <form-title
-      title="autragsbestätigungs anlage"
+      title="auftrags bestätigung"
       style="align-self: center"
     />
     <div class="placeholder"></div>
