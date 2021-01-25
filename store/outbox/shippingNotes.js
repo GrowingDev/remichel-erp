@@ -2,7 +2,7 @@ export const state = () => ({
   list: [],
   onboarding: [
     {
-      title: 'no shipping-notes found',
+      title: 'Keine Lieferscheine gefunden',
       description:
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deinen ersten Lieferschein anzulegen.',
       action: {

@@ -2,7 +2,7 @@ export const state = () => ({
   list: [],
   onboarding: [
     {
-      title: 'no order-confirmations found',
+      title: 'Keine Auftragsbestätigung gefunden',
       description:
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deine erste Auftragsbestätigung anzulegen.',
       action: {

@@ -61,7 +61,7 @@ export default {
   },
   methods: {
     openNewDocument() {
-         this.$router.push(`/base-data/accounts/new`)
+         this.$router.push(`/outbox/order-confirmations/new`)
     },
   },
   async fetch() {

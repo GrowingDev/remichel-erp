@@ -2,7 +2,7 @@ export const state = () => ({
   list: [],
   onboarding: [
     {
-      title: 'no business-letters found',
+      title: 'Keine Geschäftsbriefe gefunden',
       description:
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deinen ersten Geschäftsbrief anzulegen.',
       action: {
