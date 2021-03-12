@@ -10,14 +10,14 @@
       class="table-item grid-cols"
       v-for="listItem in listItems"
       :key="listItem.id"
-      @click="openArticle(listItem.ArticleID)"
+      @click="openListItem(listItem.id)"
     >
-      <label>{{ listItem.ArticleID }}</label>
-      <label>{{ listItem.Title }}</label>
-      <label>{{ listItem.Description }}</label>
-      <label>{{ listItem.Group }}</label>
-      <label>{{ listItem.SupplierID }}</label>
-      <label>{{ listItem.OwnerID }}</label>
+      <label>{{ listItem.articleId }}</label>
+      <label>{{ listItem.title }}</label>
+      <label>{{ listItem.description }}</label>
+      <label>{{ listItem.articleGroup }}</label>
+      <label>{{ listItem.supplier }}</label>
+      <label>{{ listItem.supplierArticleId }}</label>
     </div>
   </div>
 </template>
@@ -31,7 +31,7 @@ export default {
     listItems: Array,
   },
   methods: {
-    openArticle(id) {
+    openListItem(id) {
       console.log(id)
       this.$router.push(`/ressources/articles/${id}`)
     },

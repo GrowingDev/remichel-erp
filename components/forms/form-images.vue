@@ -8,49 +8,57 @@
     <div class="img-box furniture-front-image">
       <img
         v-if="this.$route.params.id"
-        :src="
-          `https://remichel-cc.com/uploads/${this.$route.params.id}-front.png`
-        "
+        :src="`https://remichel-cc.com/uploads/${this.$route.params.id}-front.png`"
         onerror="this.style.display='none'"
       />
-      <img :src="imgFront" onerror="this.style.display='none'" />
+      <img
+        v-if="uploadFront.image"
+        :src="uploadFront.image"
+        onerror="this.style.display='none'"
+      />
     </div>
     <div class="img-box furniture-back-image">
       <img
         v-if="this.$route.params.id"
-        :src="
-          `https://remichel-cc.com/uploads/${this.$route.params.id}-back.png`
-        "
+        :src="`https://remichel-cc.com/uploads/${this.$route.params.id}-back.png`"
         onerror="this.style.display='none'"
       />
-      <img :src="imgBack" onerror="this.style.display='none'" />
+      <img
+        v-if="uploadBack.image"
+        :src="uploadBack.image"
+        onerror="this.style.display='none'"
+      />
     </div>
     <div class="img-box etui-img">
       <img
         v-if="this.$route.params.id"
-        :src="
-          `https://remichel-cc.com/uploads/${this.$route.params.id}-etui.png`
-        "
+        :src="`https://remichel-cc.com/uploads/${this.$route.params.id}-etui.png`"
         onerror="this.style.display='none'"
       />
-      <img :src="imgEtui" onerror="this.style.display='none'" />
+      <img
+        v-if="uploadEtui.image"
+        :src="uploadEtui.image"
+        onerror="this.style.display='none'"
+      />
     </div>
     <div class="img-box packaging-img">
       <img
         v-if="this.$route.params.id"
-        :src="
-          `https://remichel-cc.com/uploads/${this.$route.params.id}-packaging.png`
-        "
+        :src="`https://remichel-cc.com/uploads/${this.$route.params.id}-packaging.png`"
         onerror="this.style.display='none'"
       />
-      <img :src="imgPackaging" onerror="this.style.display='none'" />
+      <img
+        v-if="uploadPackage.image"
+        :src="uploadPackage.image"
+        onerror="this.style.display='none'"
+      />
     </div>
     <input
       type="file"
       id="input-furniture-front"
       accept="image/x"
       ref="img01"
-      v-on:change="this.handleFrontImg"
+      @change="onFileChange($event, 0)"
     />
     <label class="img-button" for="input-furniture-front">Bild auswählen</label>
     <input
@@ -58,7 +66,7 @@
       id="input-furniture-back"
       accept="image/x"
       ref="img02"
-      v-on:change="this.handleBackImg"
+      @change="onFileChange($event, 1)"
     />
     <label class="img-button" for="input-furniture-back">Bild auswählen</label>
     <input
@@ -66,7 +74,7 @@
       id="input-etui"
       accept="image/x"
       ref="img02"
-      v-on:change="this.handleEtuiImg"
+      @change="onFileChange($event, 2)"
     />
     <label class="img-button" for="input-etui">Bild auswählen</label>
     <input
@@ -74,7 +82,7 @@
       id="input-packaging"
       accept="image/x"
       ref="img04"
-      v-on:change="this.handlePackagingImg"
+      @change="onFileChange($event, 3)"
     />
     <label class="img-button" for="input-packaging">Bild auswählen</label>
   </div>
@@ -85,56 +93,76 @@ export default {
   name: 'FormImages',
   data() {
     return {
-      imgEtui: '',
-      imgFront: '',
-      imgBack: '',
-      imgPackaging: '',
+      uploadFront: {
+        image: null,
+      },
+      uploadBack: {
+        image: null,
+      },
+      uploadEtui: {
+        image: null,
+      },
+      uploadPackage: {
+        image: null,
+      },
     }
   },
   methods: {
+    onFileChange(e, i) {
+      let item
+      switch (i) {
+        case 0:
+          item = this.uploadFront
+          break
+        case 1:
+          item = this.uploadBack
+          break
+        case 2:
+          item = this.uploadEtui
+          break
+        case 3:
+          item = this.uploadPackage
+          break
+        default:
+          break
+      }
+
+      const files = e.target.files || e.dataTransfer.files
+      if (!files.length) return
+      this.createImage(item, files[0])
+    },
+    createImage(item, file) {
+      // const image = new Image()
+
+      const reader = new FileReader()
+
+      reader.onload = (e) => {
+        item.image = e.target.result
+      }
+      reader.readAsDataURL(file)
+      console.log(this.$refs)
+    },
     getImgUrl(img) {
-      let imageUrl = 'https://remichel-cc.com/uploads/' + img + '.png'
-      console.log(imageUrl)
+      let imageUrl = 'https://api.remichelgroup.com/uploads/' + img + '.png'
       return imageUrl
     },
-    transformImage(image, suffix) {
-      var blob = image.slice(0, image.size, 'image/png')
-      const newFile = new File([blob], `${this.$route.params.id}-${suffix}`, {
-        type: 'image/png',
-      })
-      return newFile
-    },
-    handleFrontImg(e) {
-      const img = e.target.files[0]
-      this.imgFront = URL.createObjectURL(img)
-      const file = this.transformImage(img, 'front')
-      this.$store.commit('setImageFront', file.name)
-      this.$store.commit('setRawImages', file)
-      console.log(file.name)
-    },
-    handleBackImg(e) {
-      const img = e.target.files[0]
-      this.imgBack = URL.createObjectURL(img)
-      const file = this.transformImage(img, 'back')
-      this.$store.commit('setImageBack', file.name)
-      this.$store.commit('setRawImages', file)
-      console.log(file.name)
-    },
-    handleEtuiImg(e) {
-      const img = e.target.files[0]
-      this.imgEtui = URL.createObjectURL(img)
-      const file = this.transformImage(img, 'etui')
-      this.$store.commit('setImageEtui', file.name)
-      this.$store.commit('setRawImages', file)
-      console.log(file.name)
-    },
-    handlePackagingImg(e) {
-      const img = e.target.files[0]
-      this.imgPackaging = URL.createObjectURL(img)
-      const file = this.transformImage(img, 'packaging')
-      this.$store.commit('setImagePackaging', file.name)
-      this.$store.commit('setRawImages', file)
-      console.log(file.name)
+    submitFile(file) {
+      let formData = new FormData()
+
+      formData.append('file', file)
+
+      axios
+        .post(`${process.env.PRODUCT_SERVICE}/upload-image`, formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then(function () {
+          console.log('SUCCESS!!')
+        })
+        .catch(function () {
+          console.log('FAILURE!!')
+        })
     },
   },
 }

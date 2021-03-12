@@ -4,25 +4,10 @@
       <h2 v-if="this.list.length !== 0">Kunden</h2>
     </div>
     <div class="page-body">
-   <loading-spinner v-if="$fetchState.pending" />
-
-      <error-occured v-if="$fetchState.error" :refresh="$fetch" />
-
-      <no-data-found
-        v-if="
-          this.list.length == 0 &&
-          !$fetchState.pending &&
-          !$fetchState.error
-        "
-        :pages="this.onboarding"
-        :action="newDocument"
-      />
         <table-customers
-      :listItems="list"
-      v-if="!$fetchState.pending && !$fetchState.error && this.list.length !== 0"
-    />
+      :listItems="list"/>
     </div>
-   <menu-bar :openDocument="openNewDocument" v-if="!$fetchState.pending && !$fetchState.error"/>
+   <menu-bar :openDocument="openNewDocument" />
   </div>
 </template>
 
@@ -45,6 +30,9 @@ export default {
     TableCustomers,
     Onboarding,
   },
+   beforeMount() {
+    this.getCustomers()
+  },
   computed: {
     onboarding() {
       return this.$store.state.baseData.customers.onboarding
@@ -59,13 +47,37 @@ export default {
   },
   methods: {
     openNewDocument() {
-      console.log('new Documents')
+      console.log()
     this.$router.push(`/base-data/customers/new`)
     },
+     async getCustomers() {
+      this.list = await this.$axios
+        .$post('http:localhost:4000', {
+          query: `
+      query {
+        customers {
+          id
+          customerId
+          customerGroup
+          status
+          contactPerson{
+            gender
+            lastName
+          }
+          billingAddress{
+            country
+          }
+        }
+      }
+        `,
+        })
+        .then((res) => {
+          return res.data.customers
+        })
+      console.log(this.list)
+    },
   },
-  async fetch() {
-   return []
-  },
+
 }
 </script>
 

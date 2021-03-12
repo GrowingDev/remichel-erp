@@ -4,28 +4,9 @@
       <h2 v-if="this.list.length !== 0">Produkte</h2>
     </div>
     <div class="page-body">
-      <loading-spinner v-if="$fetchState.pending" />
-
-      <error-occured v-if="$fetchState.error" :refresh="$fetch" />
-
-      <no-data-found
-        v-if="
-          this.list.length == 0 &&
-
-          !$fetchState.pending &&
-          !$fetchState.error
-        "
-        :pages="this.onboarding"
-        :action="newDocument"
-      />
-
-      <table-products :listItems="list"
-      v-if="this.list.length != 0 && !$fetchState.pending && !$fetchState.error"/>
+      <table-products :listItems="list" />
     </div>
-    <menu-bar
-      :openDocument="openNewDocument"
-      v-if="!$fetchState.pending && !$fetchState.error"
-    />
+    <menu-bar :openDocument="openNewDocument" />
   </div>
 </template>
 
@@ -46,6 +27,9 @@ export default {
     ErrorOccured,
     TableProducts,
   },
+  beforeMount() {
+    this.getProducts()
+  },
   computed: {
     onboarding() {
       return this.$store.state.ressources.products.onboarding
@@ -60,12 +44,29 @@ export default {
   },
   methods: {
     openNewDocument() {
-      console.log(this.$route.path)
       this.$router.push(`/ressources/products/new`)
     },
-  },
-  async fetch() {
-    this.list = []
+    async getProducts() {
+      this.list = await this.$axios
+        .$post('http:localhost:4000', {
+          query: `
+      query {
+        products {
+          id
+          productId
+          productDescription{
+            title
+          productGroup
+          }
+        }
+      }
+        `,
+        })
+        .then((res) => {
+          return res.data.products
+        })
+      console.log(this.list)
+    },
   },
 }
 </script>

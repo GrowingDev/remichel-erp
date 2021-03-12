@@ -6,7 +6,7 @@
       <form-input
         label="artikelnummer"
         placeholder="Artikelnummer"
-        v-model="article.articleID"
+        v-model="article.articleId"
       />
       <form-input
         label="Artikel"
@@ -22,24 +22,24 @@
         label="Artikelgruppe"
         defaultOption="Bitte wählen Sie"
         :options="groups"
-        v-model="article.group"
+        v-model="article.articleGroup"
       />
       <form-select
         label="Lieferant"
         defaultOption="Bitte wählen Sie"
-        :options="article.supplierID"
+        :options="article.supplier"
       />
       <form-input
         label="Externe Artikelnummer"
         placeholder="Externe Artikelnummer"
-        v-model="article.ownerID"
+        v-model="article.supplierArticleId"
       />
       <form-input label="EAN" placeholder="EAN" v-model="article.ean" />
       <h3>Kalkulation</h3>
       <form-currency-input
         label="Einkaufspreis"
         placeholder="Einkaufspreis"
-        v-model="article.ep"
+        v-model="article.purchasingPrice_01"
       />
       <form-currency-input
         label="Aufschlag"
@@ -51,7 +51,7 @@
         placeholder="Netto"
         v-model="article.net"
       />
-      <form-currency-input
+      <form-input
         label="Steuersatz in Prozent z.B 10%"
         placeholder="Steuersatz in Prozent z.B 10%"
         v-model="article.tax"
@@ -77,37 +77,14 @@ export default {
   name: 'ArticlePage',
   components: { menuBar, FormInput, FormSelect, FormCurrencyInput, FormTitle },
   mounted() {
-    console.log(process.env.BACKEND_URL)
-
     if (this.$route.params.id !== 'new') {
-      fetch(`${process.env.ARTICLE_SERVICE}/get`, {
-        method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify({
-          ArticleID: parseInt(this.$route.params.id),
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          this.article = res
-        })
+     this.getArticle(this.$route.params.id)
     }
   },
   data() {
     return {
       article: {
-        articleID: '',
-        title: '',
-        description: '',
-        group: '',
-        supplierID: '',
-        ownerID: '',
-        ean: '',
-        ep: 0,
-        surcharge: 0,
-        net: 0,
-        tax: 0,
-        total: 0,
+
       },
       groups: [
         {
@@ -154,45 +131,49 @@ export default {
     }
   },
   methods: {
-    saveDocument() {
-      console.log(this.article)
-      this.list = fetch(`${process.env.ARTICLE_SERVICE}/create`, {
-        method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify({
-          Title: this.article.title,
-          Description: this.article.description,
-          Group: this.article.group,
-          supplierID: this.article.supplierID,
-          ownerID: this.article.ownerID,
-          ean: this.article.ean,
-          ep: parseFloat(this.article.ep),
-          surcharge: parseFloat(this.article.surcharge),
-          net: parseFloat(this.article.net),
-          tax: parseFloat(this.article.tax),
-          total: parseFloat(this.article.total),
-        }),
-      })
-        .then((res) => res.json())
+    getArticle(id) {
+      console.log(id)
+      this.$axios
+        .$post('http:localhost:4000', {
+          query: `
+       query Article($id: ID!) {
+        article(id: $id) {
+          id
+          articleId
+          title
+          description
+          articleGroup
+          supplier
+          supplierArticleId
+          ean
+          eori
+          tax
+          total
+          purchasingPrice_01
+          purchasingPrice_02
+          purchasingPrice_03
+          purchasingPrice_04
+          net
+          surcharge
+
+        }
+      }
+        `,
+          fetchPolicy: 'no-cache',
+          variables: {
+            id: id,
+          },
+        })
         .then((res) => {
-          this.article = res
+          this.article = res.data.article
           console.log(this.article)
-          this.$router.back()
         })
     },
+    saveDocument() {
+
+    },
     deleteDocument() {
-      this.list = fetch(`${process.env.ARTICLE_SERVICE}/delete`, {
-        method: 'POST',
-        mode: 'cors',
-        body: JSON.stringify({
-          ArticleID: parseInt(this.$route.params.id),
-        }),
-      })
-        .then((res) => res.json())
-        .then((res) => {
-          console.log(res)
-          this.$router.back()
-        })
+
     },
   },
 }

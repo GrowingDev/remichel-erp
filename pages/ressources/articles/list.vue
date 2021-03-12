@@ -4,24 +4,9 @@
       <h2 v-if="this.list.length !== 0">artikel</h2>
     </div>
     <div class="page-body">
-      <loading-spinner v-if="$fetchState.pending" />
-      <error-occured v-if="$fetchState.error " :refresh="$fetch" />
-      <no-data-found
-        v-if="
-          this.list.length == 0 && !$fetchState.pending && !$fetchState.error
-        "
-        :pages="this.onboarding"
-        :action="newDocument"
-      />
-      <table-articles
-        :listItems="list"
-        v-if="this.list.length !== 0 && !$fetchState.pending && !$fetchState.error"
-      />
+      <table-articles :listItems="list" />
     </div>
-    <menu-bar
-      :openDocument="openNewDocument"
-      v-if="!$fetchState.pending && !$fetchState.error"
-    />
+    <menu-bar :openDocument="openNewDocument" />
   </div>
 </template>
 
@@ -42,8 +27,11 @@ export default {
     ErrorOccured,
     TableArticles,
   },
+  beforeMount() {
+    this.getArticles()
+  },
   computed: {
-   onboarding() {
+    onboarding() {
       return this.$store.state.ressources.articles.onboarding
     },
   },
@@ -54,19 +42,33 @@ export default {
       page: 0,
     }
   },
+
   methods: {
-    newDocument() {
-      console.log('new Documents')
-      this.doc = !this.doc
-    },
-     openNewDocument() {
-      console.log(this.$route.path)
+    openNewDocument() {
       this.$router.push(`/ressources/articles/new`)
     },
-  },
-  async fetch() {
-    console.log(process.env.ARTICLE_SERVICE)
-    this.list = []
+    async getArticles() {
+      this.list = await this.$axios
+        .$post('http:localhost:4000', {
+          query: `
+      query {
+        articles {
+          id
+          articleId
+          title
+          description
+          articleGroup
+          supplier
+          supplierArticleId
+        }
+      }
+        `,
+        })
+        .then((res) => {
+          return res.data.articles
+        })
+      console.log(this.list)
+    },
   },
 }
 </script>

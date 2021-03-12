@@ -4,25 +4,10 @@
       <h2 v-if="this.list.length !== 0">kollektionen</h2>
     </div>
     <div class="page-body">
-      <loading-spinner v-if="$fetchState.pending" />
-
-      <error-occured v-if="$fetchState.error" :refresh="$fetch" />
-
-      <no-data-found
-        v-if="noDataFound"
-        :pages="this.onboarding"
-        :action="newDocument"
-      />
-      <table-collections
-        :listItems="list"
-        v-if="tableAvailable"
-      />
+      <table-collections :listItems="list" />
     </div>
 
-    <menu-bar
-      :openDocument="openNewDocument"
-      v-if="!$fetchState.pending && !$fetchState.error"
-    />
+    <menu-bar :openDocument="openNewDocument" />
   </div>
 </template>
 
@@ -33,6 +18,7 @@ import MenuBar from '~/components/menu-bar/menu-bar'
 import LoadingSpinner from '~/components/pages/loading-spinner'
 import ErrorOccured from '@/components/pages/error-occured'
 import TableCollections from '~/components/tables/ressources/table-collections.vue'
+
 export default {
   name: 'list',
   components: {
@@ -43,22 +29,13 @@ export default {
     ErrorOccured,
     TableCollections,
   },
+  beforeMount() {
+    this.getCollections()
+  },
   computed: {
     onboarding() {
       return this.$store.state.ressources.collections.onboarding
     },
-    noDataFound(){
-      if(this.list.length == 0 && !this.$fetchState.pending && !this.$fetchState.error) {
-        return true
-      }
-      return false
-    },
-    tableAvailable(){
-      if(this.list.length !== 0 && !this.$fetchState.pending && !this.$fetchState.error){
-        return true
-      }
-      return false
-    }
   },
   data: () => {
     return {
@@ -70,11 +47,27 @@ export default {
   },
   methods: {
     openNewDocument() {
-  this.$router.push(`/ressources/collections/new`)
+      this.$router.push(`/ressources/collections/new`)
     },
-  },
-  async fetch() {
-    this.list = []
+    async getCollections() {
+      this.list = await this.$axios
+        .$post('http:localhost:4000', {
+          query: `
+      query {
+        collections {
+          id
+          collectionId
+          title
+          description
+        }
+      }
+        `,
+        })
+        .then((res) => {
+          return res.data.collections
+        })
+      console.log(this.list)
+    },
   },
 }
 </script>

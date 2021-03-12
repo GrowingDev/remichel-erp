@@ -58,7 +58,7 @@ export default {
     },
   },
   async fetch() {
-    this.list = await fetch(`https://api.remichel-cc.com/list`, {
+    this.list = await fetch(`${process.env.ORDER_SERVICE}/list`, {
       method: 'POST',
       mode: 'cors',
       body: JSON.stringify({
@@ -68,6 +68,9 @@ export default {
     })
       .then((res) => res.json())
       .then((res) => {
+        if(res.OrderList == null) {
+          return []
+        }
         return [...res.ArticleList]
       })
   },

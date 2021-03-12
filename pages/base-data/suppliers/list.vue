@@ -4,27 +4,9 @@
       <h2 v-if="this.list.length !== 0">lieferanten</h2>
     </div>
     <div class="page-body">
-      <loading-spinner v-if="$fetchState.pending" />
-
-      <error-occured v-if="$fetchState.error" :refresh="$fetch" />
-
-      <no-data-found
-        v-if="
-          this.list.length == 0 && !$fetchState.pending && !$fetchState.error
-        "
-        :pages="this.onboarding"
-        :action="newDocument"
-      />
-
-      <table-suppliers
-        :listItems="list"
-        v-if="this.list.length !== 0 && !$fetchState.pending && !$fetchState.error"
-      />
+      <table-suppliers :listItems="list" />
     </div>
-    <menu-bar
-     :openDocument="openNewDocument"
-      v-if="!$fetchState.pending && !$fetchState.error"
-    />
+    <menu-bar :openDocument="openNewDocument" />
   </div>
 </template>
 
@@ -58,13 +40,37 @@ export default {
       page: 0,
     }
   },
+  beforeMount() {
+    this.getSuppliers()
+  },
   methods: {
     openNewDocument() {
-         this.$router.push(`/base-data/suppliers/new`)
+      this.$router.push(`/base-data/suppliers/new`)
     },
-  },
-  async fetch() {
-    this.list = []
+    async getSuppliers() {
+      this.list = await this.$axios
+        .$post('http:localhost:4000', {
+          query: `
+      query {
+        suppliers {
+          id
+          supplierId
+          contactPerson {
+            email
+            phone01
+          }
+          billingAddress {
+            title
+          }
+        }
+      }
+        `,
+        })
+        .then((res) => {
+          return res.data.suppliers
+        })
+      console.log(this.list)
+    },
   },
 }
 </script>

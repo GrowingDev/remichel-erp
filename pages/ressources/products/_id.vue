@@ -3,36 +3,95 @@
     <div id="product-basedata">
       <form-title title="produkt anlage" style="align-self: center" />
       <div class="placeholder"></div>
-      <form-input label="Setnummer" placeholder="Setnummer" />
-      <form-input label="Bezeichnung" placeholder="Bezeichnung" />
-      <form-input label="Kollektion" placeholder="Kollektion" />
-      <form-input label="Furniture" placeholder="Furniture" />
-      <form-input label="Inlay" placeholder="Inlay" />
-      <form-input label="Etui" placeholder="Etui" />
-      <form-input label="Verpackung" placeholder="Verpackung" />
-      <form-input label="Maße Clip" placeholder="Maße Clip" />
-      <form-input label="Gewicht Clip" placeholder="Gewicht Clip" />
-      <form-input label="EAN" placeholder="EAN" />
-      <form-input label="EORI" placeholder="EORI" />
+      <form-input
+        label="Setnummer"
+        placeholder="Setnummer"
+        v-model="product.productId"
+      />
+      <form-input
+        label="Bezeichnung"
+        placeholder="Bezeichnung"
+        v-model="product.productDescription.title"
+      />
+      <form-input
+        label="Kollektion"
+        placeholder="Kollektion"
+        v-model="product.productDescription.productGroup"
+      />
+      <form-input
+        label="Furniture"
+        placeholder="Furniture"
+        v-model="product.productDescription.furniture"
+      />
+      <form-input
+        label="Inlay"
+        placeholder="Inlay"
+        v-model="product.productDescription.inlay"
+      />
+      <form-input
+        label="Etui"
+        placeholder="Etui"
+        v-model="product.productDescription.etui"
+      />
+      <form-input
+        label="Verpackung"
+        placeholder="Verpackung"
+        v-model="product.productDescription.package"
+      />
+      <form-input
+        label="Maße Clip"
+        placeholder="Maße Clip"
+        v-model="product.productDescription.size"
+      />
+      <form-input
+        label="Gewicht Clip"
+        placeholder="Gewicht Clip"
+        v-model="product.productDescription.weight"
+      />
+      <form-input
+        label="EAN"
+        placeholder="EAN"
+        v-model="product.productDescription.ean"
+      />
+      <form-input
+        label="EORI"
+        placeholder="EORI"
+        v-model="product.productDescription.eori"
+      />
       <h3>Kalkulation</h3>
-      <form-currency-input label="Summe Artikel" />
-      <form-currency-input label="Komplettierung" />
-      <form-currency-input label="Überverpackung" />
-      <form-currency-input label="Logistik" />
+      <form-currency-input
+        label="Summe Artikel"
+        v-model="product.productCalculation.set"
+      />
+      <form-currency-input
+        label="Komplettierung"
+        v-model="product.productCalculation.completition"
+      />
+      <form-currency-input
+        label="Überverpackung"
+        v-model="product.productCalculation.packaging"
+      />
+      <form-currency-input
+        label="Logistik"
+        v-model="product.productCalculation.logistic"
+      />
       <div class="placeholder"></div>
       <form-currency-input label="Gesamtsumme" />
-      <form-currency-input label="Lizenzgebühr 6%" />
+      <form-currency-input
+        label="Lizenzgebühr 6%"
+        v-model="product.productCalculation.license"
+      />
       <div class="placeholder"></div>
-      <form-currency-input label="EP Netto" />
+      <form-currency-input label="EP Netto"/>
       <form-currency-input label="EH Spanne +100%" />
       <form-currency-input label="Gesamt Netto" />
       <form-currency-input label="Mehrwertsteuer 20%" />
-      <form-currency-input label="VK B2C" />
+      <form-currency-input label="VK B2C"  v-model="product.productCalculation.price_Customer"/>
       <div class="placeholder"></div>
-      <form-currency-input label="RECHNUNGSBETRAG B2B NETTO" />
-      <form-currency-input label="RECHNUNGSBETRAG B2B INKL. STEUER" />
-      <form-currency-input label="RECHNUNGSBETRAG B2C NETTO" />
-      <form-currency-input label="RECHNUNGSBETRAG B2C INKL. STEUER" />
+      <form-currency-input label="RECHNUNGSBETRAG B2B NETTO"  />
+      <form-currency-input label="RECHNUNGSBETRAG B2B INKL. STEUER"  v-model="product.productCalculation.bill_sum_02"/>
+      <form-currency-input label="RECHNUNGSBETRAG B2C NETTO"  v-model="product.productCalculation.bill_sum_03"/>
+      <form-currency-input label="RECHNUNGSBETRAG B2C INKL. STEUER"  v-model="product.productCalculation.bill_sum_04"/>
       <div class="placeholder"></div>
       <form-images />
       <div class="list-container">
@@ -62,20 +121,70 @@ export default {
     menubar,
     FormImages,
   },
-
+  mounted() {
+    if (this.$route.params.id !== 'new') {
+      this.getProduct(this.$route.params.id)
+    }
+  },
   data() {
     return {
-      document: {
-        productId: '',
-        title: '',
+      product: {
+        productDescription: {},
+        productCalculation: {},
+        productComponents: {},
       },
     }
   },
 
   methods: {
     updateList() {},
-    saveDocument() {},
-    deleteDocument() {},
+    getProduct(id) {
+      console.log(id)
+      this.$axios
+        .$post('http:localhost:4000', {
+          query: `
+       query Product($id: ID!) {
+        product(id: $id) {
+          id
+          productId
+
+  productDescription{
+    title
+    etui
+    furniture
+    productGroup
+    inlay
+    package
+    weight
+    size
+    ean
+    eori
+      }
+      productCalculation{
+        set
+        completition
+        packaging
+        logistic
+        license
+        price_Customer
+        bill_sum_01
+        bill_sum_02
+        bill_sum_03
+        bill_sum_04
+      }
+        }
+      }
+        `,
+          fetchPolicy: 'no-cache',
+          variables: {
+            id: id,
+          },
+        })
+        .then((res) => {
+          this.product = res.data.product
+          console.log(this.product)
+        })
+    },
   },
 }
 </script>
@@ -96,7 +205,7 @@ export default {
     justify-self: flex-start;
     margin-bottom: 2rem;
     margin-top: 2rem;
-    margin-left:5px;
+    margin-left: 5px;
   }
   #product-basedata {
     background: white;

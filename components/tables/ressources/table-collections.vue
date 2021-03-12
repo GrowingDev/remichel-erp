@@ -7,8 +7,8 @@
     </div>
 
     <div class="table-item grid-cols" v-for="listItem in listItems" :key="listItem.id">
-      <label>{{ listItem.ArticleID }}</label>
-      <label>{{ listItem.Title }}</label>
+      <label>{{ listItem.collectionId }}</label>
+      <label>{{ listItem.title }}</label>
     </div>
   </div>
 </template>
