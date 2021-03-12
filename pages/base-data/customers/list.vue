@@ -52,7 +52,7 @@ export default {
     },
      async getCustomers() {
       this.list = await this.$axios
-        .$post('https://remichelgroup.com/api/', {
+        .$post('http://localhost:4000', {
           query: `
       query {
         customers {
