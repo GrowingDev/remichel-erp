@@ -49,7 +49,7 @@ export default {
     },
     async getArticles() {
       this.list = await this.$axios
-        .$post('http:localhost:4000', {
+        .$post('https://api.remichel-cc.com/api', {
           query: `
       query {
         articles {

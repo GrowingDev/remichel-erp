@@ -134,7 +134,7 @@ export default {
     getArticle(id) {
       console.log(id)
       this.$axios
-        .$post('http:localhost:4000', {
+        .$post('https://api.remichel-cc.com/api', {
           query: `
        query Article($id: ID!) {
         article(id: $id) {

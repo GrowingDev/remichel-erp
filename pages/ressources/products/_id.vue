@@ -141,7 +141,7 @@ export default {
     getProduct(id) {
       console.log(id)
       this.$axios
-        .$post('http:localhost:4000', {
+        .$post('https://api.remichel-cc.com/api', {
           query: `
        query Product($id: ID!) {
         product(id: $id) {

@@ -106,7 +106,7 @@ export default {
     getSupplier(id) {
       console.log(id)
       this.$axios
-        .$post('http:localhost:4000', {
+        .$post('https://api.remichel-cc.com/api', {
           query: `
        query Supplier($id: ID!) {
         supplier(id: $id) {
