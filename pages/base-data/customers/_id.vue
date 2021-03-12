@@ -153,7 +153,7 @@ export default {
     getCustomers(id) {
       console.log(id)
       this.$axios
-        .$post('http:localhost:4000', {
+        .$post('https://remichelgroup.com/api/', {
           query: `
        query Customer($id: ID!) {
         customer(id: $id) {
