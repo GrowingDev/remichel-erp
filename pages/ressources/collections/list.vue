@@ -51,7 +51,7 @@ export default {
     },
     async getCollections() {
       this.list = await this.$axios
-        .$post('http:localhost:4000', {
+        .$post('http://localhost:4000', {
           query: `
       query {
         collections {
@@ -59,6 +59,7 @@ export default {
           collectionId
           title
           description
+          navigationRoute
         }
       }
         `,

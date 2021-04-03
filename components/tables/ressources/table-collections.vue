@@ -6,7 +6,12 @@
       </p>
     </div>
 
-    <div class="table-item grid-cols" v-for="listItem in listItems" :key="listItem.id">
+    <div
+      class="table-item grid-cols"
+      v-for="listItem in listItems"
+      :key="listItem.id"
+      @click="openListItem(listItem.id)"
+    >
       <label>{{ listItem.collectionId }}</label>
       <label>{{ listItem.title }}</label>
     </div>
@@ -23,22 +28,20 @@ export default {
   },
   methods: {
     openListItem(id) {
-      this.$router.push(`${id}`)
+      console.log(id)
+      this.$router.push(`/ressources/collections/${id}`)
     },
   },
   data: () => {
     return {
-      headers: [
-        'kollektionsnummer',
-        'Titel',
-      ],
+      headers: ['kollektionsnummer', 'Titel'],
     }
   },
 }
 </script>
 
 <style lang="scss" scoped>
-.grid-cols{
+.grid-cols {
   grid-template-columns: repeat(2, 1fr);
 }
 </style>
