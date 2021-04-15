@@ -125,7 +125,7 @@
         <div class="placeholder"></div>
 
       </div>
-      <menu-bar :saveDocument="save" :deleteDocument="deleteProduct"/>
+      <menu-bar :saveDocument="save" :deleteDocument="deleteProduct" />
     </div>
   </div>
 </template>
