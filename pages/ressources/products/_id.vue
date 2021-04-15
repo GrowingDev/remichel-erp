@@ -58,8 +58,21 @@
         placeholder="EORI"
         v-model="product.productDescription.eori"
       />
-      <h3>Kalkulation</h3>
-      <form-currency-input
+
+      <form-input
+        label="Verkaufspreis B2C"
+        placeholder="Verkaufspreis B2C"
+        v-model="product.productCalculation.price_business"
+      />
+      <form-input
+        label="Verkaufspreis B2B"
+        placeholder="Verkaufspreis B2B"
+        v-model="product.productCalculation.price_private"
+      />
+            <div class="placeholder"></div>
+            <h3>Produktbilder</h3>
+      <!--      <h3>Kalkulation</h3>
+    <form-currency-input
         label="Summe Artikel"
         v-model="product.productCalculation.set"
       />
@@ -82,23 +95,37 @@
         v-model="product.productCalculation.license"
       />
       <div class="placeholder"></div>
-      <form-currency-input label="EP Netto"/>
+      <form-currency-input label="EP Netto" />
       <form-currency-input label="EH Spanne +100%" />
       <form-currency-input label="Gesamt Netto" />
       <form-currency-input label="Mehrwertsteuer 20%" />
-      <form-currency-input label="VK B2C"  v-model="product.productCalculation.price_Customer"/>
+
+      <form-currency-input
+        label="VK B2C"
+        v-model="product.productCalculation.price_Customer"
+      />
       <div class="placeholder"></div>
-      <form-currency-input label="RECHNUNGSBETRAG B2B NETTO"  />
-      <form-currency-input label="RECHNUNGSBETRAG B2B INKL. STEUER"  v-model="product.productCalculation.bill_sum_02"/>
-      <form-currency-input label="RECHNUNGSBETRAG B2C NETTO"  v-model="product.productCalculation.bill_sum_03"/>
-      <form-currency-input label="RECHNUNGSBETRAG B2C INKL. STEUER"  v-model="product.productCalculation.bill_sum_04"/>
+      <form-currency-input label="RECHNUNGSBETRAG B2B NETTO" />
+      <form-currency-input
+        label="RECHNUNGSBETRAG B2B INKL. STEUER"
+        v-model="product.productCalculation.bill_sum_02"
+      />
+      <form-currency-input
+        label="RECHNUNGSBETRAG B2C NETTO"
+        v-model="product.productCalculation.bill_sum_03"
+      />
+      <form-currency-input
+        label="RECHNUNGSBETRAG B2C INKL. STEUER"
+        v-model="product.productCalculation.bill_sum_04"
+      />
       <div class="placeholder"></div>
+      -->
       <form-images />
       <div class="list-container">
         <div class="placeholder"></div>
-        <h2>Produktbestandteile</h2>
+
       </div>
-      <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
+      <menu-bar :saveDocument="save" :deleteDocument="deleteProduct"/>
     </div>
   </div>
 </template>
@@ -138,6 +165,14 @@ export default {
 
   methods: {
     updateList() {},
+    save(){
+
+      if(this.$route.params.id == "new"){
+        this.createProduct()
+      }else{
+        this.updateProduct()
+      }
+    },
     getProduct(id) {
       console.log(id)
       this.$axios
@@ -147,7 +182,6 @@ export default {
         product(id: $id) {
           id
           productId
-
   productDescription{
     title
     etui
@@ -167,6 +201,8 @@ export default {
         logistic
         license
         price_Customer
+        price_private
+        price_business
         bill_sum_01
         bill_sum_02
         bill_sum_03
@@ -183,6 +219,74 @@ export default {
         .then((res) => {
           this.product = res.data.product
           console.log(this.product)
+        })
+    },
+    createProduct() {
+      this.$axios
+        .$post('http://localhost:4000', {
+          query: `
+       mutation CREATEPRODUCT($input: productInput!) {
+        createProduct(input: $input) {
+          productDescription {
+            title
+          }
+        }
+        }
+        `,
+          fetchPolicy: 'no-cache',
+          variables: {
+            input: this.product,
+          },
+        })
+        .then((res) => {
+          this.$router.back()
+        })
+    },
+    updateProduct() {
+      this.$axios
+        .$post('http://localhost:4000', {
+          query: `
+       mutation updateProduct($id: ID!, $input: productInput) {
+  updateProduct(id:$id,input: $input) {
+    productDescription {
+      title
+    }
+  }
+}
+        `,
+          fetchPolicy: 'no-cache',
+          variables: {
+            id: this.product.id,
+            input: {
+              productDescription: this.product.productDescription,
+              productCalculation: this.product.productCalculation,
+              productComponents: this.product.productComponents
+            },
+          },
+        })
+        .then((res) => {
+          this.$router.back()
+        })
+    },
+    deleteProduct(id) {
+      console.log('delete Product', this.product.id)
+
+      this.$axios
+        .$post('https://api.remichel-cc.com/api', {
+          query: `mutation DELETEPRODUCT($id: ID!) {
+                    deleteProduct(id: $id) {
+                id
+            }
+            }`,
+          fetchPolicy: 'no-cache',
+          variables: {
+            id: this.product.id,
+          },
+        })
+        .then((res) => {
+          this.product = res.data.product
+          console.log(this.product)
+          this.$router.back()
         })
     },
   },
