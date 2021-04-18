@@ -223,7 +223,7 @@ export default {
     },
     createProduct() {
       this.$axios
-        .$post('http://localhost:4000', {
+        .$post('https://api.remichel-cc.com/api', {
           query: `
        mutation CREATEPRODUCT($input: productInput!) {
         createProduct(input: $input) {
@@ -244,7 +244,7 @@ export default {
     },
     updateProduct() {
       this.$axios
-        .$post('http://localhost:4000', {
+        .$post('https://api.remichel-cc.com/api', {
           query: `
        mutation updateProduct($id: ID!, $input: productInput) {
   updateProduct(id:$id,input: $input) {
