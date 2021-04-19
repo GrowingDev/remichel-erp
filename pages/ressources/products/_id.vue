@@ -176,7 +176,7 @@ export default {
     getProduct(id) {
       console.log(id)
       this.$axios
-        .$post('https://api.remichel-cc.com/api', {
+        .$post('https://api.remichelgroup.com', {
           query: `
        query Product($id: ID!) {
         product(id: $id) {
@@ -223,7 +223,7 @@ export default {
     },
     createProduct() {
       this.$axios
-        .$post('https://api.remichel-cc.com/api', {
+        .$post('https://api.remichelgroup.com/', {
           query: `
        mutation CREATEPRODUCT($input: productInput!) {
         createProduct(input: $input) {
@@ -244,7 +244,7 @@ export default {
     },
     updateProduct() {
       this.$axios
-        .$post('https://api.remichel-cc.com/api', {
+        .$post('https://api.remichelgroup.com/', {
           query: `
        mutation updateProduct($id: ID!, $input: productInput) {
   updateProduct(id:$id,input: $input) {
@@ -272,7 +272,7 @@ export default {
       console.log('delete Product', this.product.id)
 
       this.$axios
-        .$post('https://api.remichel-cc.com/api', {
+        .$post('https://api.remichelgroup.com/', {
           query: `mutation DELETEPRODUCT($id: ID!) {
                     deleteProduct(id: $id) {
                 id

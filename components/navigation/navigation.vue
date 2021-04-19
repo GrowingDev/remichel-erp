@@ -1,7 +1,7 @@
 <template>
   <div id="navigation">
     <div id="navigation-header">
-      <navigation-title :title="'remichel homebase'" />
+      <navigation-title :title="'remichel administration'" />
     </div>
     <div id="navigation-sub-header-placeholder">
       <h1 v-if="subNavigation" id="navigation-sub-header">

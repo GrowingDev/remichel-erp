@@ -51,7 +51,7 @@ export default {
     },
     async getCollections() {
       this.list = await this.$axios
-        .$post('http://localhost:4000', {
+        .$post('https://api.remichelgroup.com/', {
           query: `
       query {
         collections {
