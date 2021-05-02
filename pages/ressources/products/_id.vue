@@ -69,8 +69,68 @@
         placeholder="Verkaufspreis B2B"
         v-model="product.productCalculation.price_private"
       />
-            <div class="placeholder"></div>
-            <h3>Produktbilder</h3>
+      <div class="placeholder"></div>
+      <h3>Produktbilder</h3>
+      <h4>Front</h4>
+      <div class="img-box furniture-front-image">
+        <img
+         v-if="this.product.productImages.front"
+          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.front}`"
+          onerror="this.style.display='none'"
+        />
+      </div>
+      <input
+        type="file"
+        id="file"
+        ref="photo"
+        v-on:change="handleFileUpload()"
+      />
+      <button @click="uploadImgFront()">Hochladen</button>
+      <h4>Back</h4>
+      <div class="img-box furniture-front-image">
+        <img
+         v-if="this.product.productImages.back"
+          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.back}`"
+          onerror="this.style.display='none'"
+        />
+      </div>
+      <input
+        type="file"
+        id="file"
+        ref="photo"
+        v-on:change="handleFileUpload()"
+      />
+      <button @click="uploadImgBack()">Hochladen</button>
+       <h4>Etui</h4>
+      <div class="img-box furniture-front-image">
+        <img
+        v-if="this.product.productImages.etui"
+          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.etui}`"
+          onerror="this.style.display='none'"
+        />
+      </div>
+      <input
+        type="file"
+        id="file"
+        ref="photo"
+        v-on:change="handleFileUpload()"
+      />
+      <button @click="uploadImgEtui()">Hochladen</button>
+       <h4>Verpackung</h4>
+      <div class="img-box furniture-front-image">
+        <img
+         v-if="this.product.productImages.boxing"
+          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.boxing}`"
+          onerror="this.style.display='none'"
+        />
+      </div>
+      <input
+        type="file"
+        id="file"
+        ref="photo"
+        v-on:change="handleFileUpload()"
+      />
+      <button @click="uploadImgBoxing()">Hochladen</button>
       <!--      <h3>Kalkulation</h3>
     <form-currency-input
         label="Summe Artikel"
@@ -120,10 +180,8 @@
       />
       <div class="placeholder"></div>
       -->
-      <form-images />
       <div class="list-container">
         <div class="placeholder"></div>
-
       </div>
       <menu-bar :saveDocument="save" :deleteDocument="deleteProduct" />
     </div>
@@ -155,23 +213,110 @@ export default {
   },
   data() {
     return {
+      imgFront: '',
       product: {
         productDescription: {},
         productCalculation: {},
         productComponents: {},
+        productImages: {
+          front:"",
+          back:"",
+          etui: "",
+          boxing: ""
+        },
       },
     }
   },
 
   methods: {
-    updateList() {},
-    save(){
+    handleFileUpload() {
+      this.imgFront = this.$refs.photo.files[0]
+    },
 
-      if(this.$route.params.id == "new"){
+    updateList() {},
+    save() {
+      if (this.$route.params.id == 'new') {
         this.createProduct()
-      }else{
+      } else {
         this.updateProduct()
       }
+    },
+
+    uploadImgFront() {
+      let formData = new FormData()
+      formData.append('photo', this.imgFront)
+      this.$axios
+        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((res) => {
+          console.log('SUCCESS!!', res.data)
+          this.product.productImages.front = res.data
+          console.log(this.product)
+        })
+        .then((res) => {})
+        .catch(function (err) {
+          console.log('FAILURE!!', err)
+        })
+    },
+    uploadImgBack() {
+      let formData = new FormData()
+      formData.append('photo', this.imgFront)
+      this.$axios
+        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((res) => {
+          console.log('SUCCESS!!', res.data)
+          this.product.productImages.back = res.data
+          console.log(this.product)
+        })
+        .then((res) => {})
+        .catch(function (err) {
+          console.log('FAILURE!!', err)
+        })
+    },
+   uploadImgEtui() {
+      let formData = new FormData()
+      formData.append('photo', this.imgFront)
+      this.$axios
+        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((res) => {
+          console.log('SUCCESS!!', res.data)
+          this.product.productImages.etui = res.data
+          console.log(this.product)
+        })
+        .then((res) => {})
+        .catch(function (err) {
+          console.log('FAILURE!!', err)
+        })
+    },
+   uploadImgBoxing() {
+      let formData = new FormData()
+      formData.append('photo', this.imgFront)
+      this.$axios
+        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        .then((res) => {
+          console.log('SUCCESS!!', res.data)
+          this.product.productImages.boxing = res.data
+          console.log(this.product)
+        })
+        .then((res) => {})
+        .catch(function (err) {
+          console.log('FAILURE!!', err)
+        })
     },
     getProduct(id) {
       console.log(id)
@@ -193,6 +338,12 @@ export default {
     size
     ean
     eori
+      }
+      productImages{
+        front
+        back
+        etui
+        boxing
       }
       productCalculation{
         set
@@ -251,6 +402,12 @@ export default {
     productDescription {
       title
     }
+    productImages{
+        front
+        back
+        etui
+        boxing
+      }
   }
 }
         `,
@@ -260,7 +417,8 @@ export default {
             input: {
               productDescription: this.product.productDescription,
               productCalculation: this.product.productCalculation,
-              productComponents: this.product.productComponents
+              productComponents: this.product.productComponents,
+              productImages: this.product.productImages,
             },
           },
         })

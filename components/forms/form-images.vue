@@ -8,7 +8,7 @@
     <div class="img-box furniture-front-image">
       <img
         v-if="this.$route.params.id"
-        :src="`https://remichel-cc.com/uploads/${this.$route.params.id}-front.png`"
+         :src="`https://uploads.remichelgroup.com/static/${this.productImages.front}`"
         onerror="this.style.display='none'"
       />
       <img
@@ -20,7 +20,7 @@
     <div class="img-box furniture-back-image">
       <img
         v-if="this.$route.params.id"
-        :src="`https://remichel-cc.com/uploads/${this.$route.params.id}-back.png`"
+         :src="`https://uploads.remichelgroup.com/static/${this.productImages.back}`"
         onerror="this.style.display='none'"
       />
       <img
@@ -32,7 +32,7 @@
     <div class="img-box etui-img">
       <img
         v-if="this.$route.params.id"
-        :src="`https://remichel-cc.com/uploads/${this.$route.params.id}-etui.png`"
+        :src="`https://uploads.remichelgroup.com/static/${this.productImages.etui}`"
         onerror="this.style.display='none'"
       />
       <img
@@ -44,7 +44,7 @@
     <div class="img-box packaging-img">
       <img
         v-if="this.$route.params.id"
-        :src="`https://remichel-cc.com/uploads/${this.$route.params.id}-packaging.png`"
+         :src="`https://uploads.remichelgroup.com/static/${this.productImages.boxing}`"
         onerror="this.style.display='none'"
       />
       <img
@@ -58,6 +58,7 @@
       id="input-furniture-front"
       accept="image/x"
       ref="img01"
+      name="photo"
       @change="onFileChange($event, 0)"
     />
     <label class="img-button" for="input-furniture-front">Bild auswählen</label>
@@ -91,6 +92,9 @@
 <script>
 export default {
   name: 'FormImages',
+  props: {
+    productImages: {}
+  },
   data() {
     return {
       uploadFront: {
@@ -133,7 +137,6 @@ export default {
     },
     createImage(item, file) {
       // const image = new Image()
-
       const reader = new FileReader()
 
       reader.onload = (e) => {
@@ -142,17 +145,13 @@ export default {
       reader.readAsDataURL(file)
       console.log(this.$refs)
     },
-    getImgUrl(img) {
-      let imageUrl = 'https://api.remichelgroup.com/uploads/' + img + '.png'
-      return imageUrl
-    },
     submitFile(file) {
       let formData = new FormData()
 
       formData.append('file', file)
 
       axios
-        .post(`${process.env.PRODUCT_SERVICE}/upload-image`, formData, {
+        .post(`http://localhost:4001/upload`, formData, {
           headers: {
             'Content-Type': 'multipart/form-data',
           },
