@@ -74,63 +74,71 @@
       <h4>Front</h4>
       <div class="img-box furniture-front-image">
         <img
-         v-if="this.product.productImages.front"
+          v-if="this.product.productImages.front"
           :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.front}`"
           onerror="this.style.display='none'"
         />
       </div>
-      <input
-        type="file"
-        id="file"
-        ref="photo"
-        v-on:change="handleFileUpload()"
-      />
-      <button @click="uploadImgFront()">Hochladen</button>
+      <form @submit.prevent="handleSubmit">
+        <div class="form-group">
+          <input type="file" @change="uploadFile" />
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-success btn-block btn-lg">Upload</button>
+        </div>
+      </form>
       <h4>Back</h4>
-      <div class="img-box furniture-front-image">
+       <div class="img-box furniture-front-image">
         <img
-         v-if="this.product.productImages.back"
+          v-if="this.product.productImages.back"
           :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.back}`"
           onerror="this.style.display='none'"
         />
       </div>
-      <input
-        type="file"
-        id="file"
-        ref="photo"
-        v-on:change="handleFileUpload()"
-      />
-      <button @click="uploadImgBack()">Hochladen</button>
-       <h4>Etui</h4>
+      <form @submit.prevent="handleSubmitBack">
+        <div class="form-group">
+          <input type="file" @change="uploadFile" />
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-success btn-block btn-lg">Upload</button>
+        </div>
+      </form>
+      <h4>Etui</h4>
       <div class="img-box furniture-front-image">
         <img
-        v-if="this.product.productImages.etui"
+          v-if="this.product.productImages.etui"
           :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.etui}`"
           onerror="this.style.display='none'"
         />
       </div>
-      <input
-        type="file"
-        id="file"
-        ref="photo"
-        v-on:change="handleFileUpload()"
-      />
-      <button @click="uploadImgEtui()">Hochladen</button>
-       <h4>Verpackung</h4>
+      <form @submit.prevent="handleSubmitEtui">
+        <div class="form-group">
+          <input type="file" @change="uploadFile" />
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-success btn-block btn-lg">Upload</button>
+        </div>
+      </form>
+      <h4>Verpackung</h4>
       <div class="img-box furniture-front-image">
         <img
-         v-if="this.product.productImages.boxing"
-          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.boxing}`"
+          v-if="this.product.productImages.etui"
+          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.etui}`"
           onerror="this.style.display='none'"
         />
       </div>
-      <input
-        type="file"
-        id="file"
-        ref="photo"
-        v-on:change="handleFileUpload()"
-      />
-      <button @click="uploadImgBoxing()">Hochladen</button>
+      <form @submit.prevent="handleSubmitBoxing">
+        <div class="form-group">
+          <input type="file" @change="uploadFile" />
+        </div>
+
+        <div class="form-group">
+          <button class="btn btn-success btn-block btn-lg">Upload</button>
+        </div>
+      </form>
       <!--      <h3>Kalkulation</h3>
     <form-currency-input
         label="Summe Artikel"
@@ -213,24 +221,24 @@ export default {
   },
   data() {
     return {
-      imgFront: '',
+      files: null,
       product: {
         productDescription: {},
         productCalculation: {},
         productComponents: {},
         productImages: {
-          front:"",
-          back:"",
-          etui: "",
-          boxing: ""
+          front: '',
+          back: '',
+          etui: '',
+          boxing: '',
         },
       },
     }
   },
 
   methods: {
-    handleFileUpload() {
-      this.imgFront = this.$refs.photo.files[0]
+    uploadFile(event) {
+      this.files = event.target.files
     },
 
     updateList() {},
@@ -241,83 +249,55 @@ export default {
         this.updateProduct()
       }
     },
-
-    uploadImgFront() {
-      let formData = new FormData()
-      formData.append('photo', this.imgFront)
+    handleSubmit() {
+      const formData = new FormData()
+      for (const i of Object.keys(this.files)) {
+        formData.append('files', this.files[i])
+      }
       this.$axios
-        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
         .then((res) => {
-          console.log('SUCCESS!!', res.data)
           this.product.productImages.front = res.data
-          console.log(this.product)
-        })
-        .then((res) => {})
-        .catch(function (err) {
-          console.log('FAILURE!!', err)
+          console.log(res.data)
         })
     },
-    uploadImgBack() {
-      let formData = new FormData()
-      formData.append('photo', this.imgFront)
+    handleSubmitBack() {
+      const formData = new FormData()
+      for (const i of Object.keys(this.files)) {
+        formData.append('files', this.files[i])
+      }
       this.$axios
-        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
         .then((res) => {
-          console.log('SUCCESS!!', res.data)
           this.product.productImages.back = res.data
-          console.log(this.product)
-        })
-        .then((res) => {})
-        .catch(function (err) {
-          console.log('FAILURE!!', err)
+          console.log(res.data)
         })
     },
-   uploadImgEtui() {
-      let formData = new FormData()
-      formData.append('photo', this.imgFront)
+    handleSubmitEtui() {
+      const formData = new FormData()
+      for (const i of Object.keys(this.files)) {
+        formData.append('files', this.files[i])
+      }
       this.$axios
-        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
         .then((res) => {
-          console.log('SUCCESS!!', res.data)
           this.product.productImages.etui = res.data
-          console.log(this.product)
-        })
-        .then((res) => {})
-        .catch(function (err) {
-          console.log('FAILURE!!', err)
+          console.log(res.data)
         })
     },
-   uploadImgBoxing() {
-      let formData = new FormData()
-      formData.append('photo', this.imgFront)
+    andleSubmitBoxing() {
+      const formData = new FormData()
+      for (const i of Object.keys(this.files)) {
+        formData.append('files', this.files[i])
+      }
       this.$axios
-        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
-        })
+        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
         .then((res) => {
-          console.log('SUCCESS!!', res.data)
           this.product.productImages.boxing = res.data
-          console.log(this.product)
-        })
-        .then((res) => {})
-        .catch(function (err) {
-          console.log('FAILURE!!', err)
+          console.log(res.data)
         })
     },
+
     getProduct(id) {
       console.log(id)
       this.$axios
