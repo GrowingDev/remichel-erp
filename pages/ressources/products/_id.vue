@@ -139,7 +139,7 @@
           <button class="btn btn-success btn-block btn-lg">Upload</button>
         </div>
       </form>
-      <!--      <h3>Kalkulation</h3>
+      <h3>Kalkulation</h3>
     <form-currency-input
         label="Summe Artikel"
         v-model="product.productCalculation.set"
@@ -186,8 +186,8 @@
         label="RECHNUNGSBETRAG B2C INKL. STEUER"
         v-model="product.productCalculation.bill_sum_04"
       />
-      <div class="placeholder"></div>
-      -->
+
+
       <div class="list-container">
         <div class="placeholder"></div>
       </div>
