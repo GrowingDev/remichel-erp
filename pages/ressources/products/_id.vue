@@ -126,7 +126,7 @@
       <div class="img-box furniture-front-image">
         <img
           v-if="this.product.productImages.etui"
-          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.etui}`"
+          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.boxing}`"
           onerror="this.style.display='none'"
         />
       </div>
