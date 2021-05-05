@@ -285,7 +285,7 @@ export default {
           console.log(res.data)
         })
     },
-    andleSubmitBoxing() {
+    handleSubmitBoxing() {
       const formData = new FormData()
       for (const i of Object.keys(this.files)) {
         formData.append('files', this.files[i])
