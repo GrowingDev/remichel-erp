@@ -81,15 +81,17 @@
       </div>
       <form @submit.prevent="handleSubmit">
         <div class="form-group">
-          <input type="file" @change="uploadFile" />
+          <input type="file" @change="uploadFile" class="btn-upload" />
         </div>
 
         <div class="form-group">
-          <button class="btn btn-success btn-block btn-lg">Upload</button>
+          <button class="btn btn-success btn-block btn-lg btn-submit">
+            Datei Hochladen
+          </button>
         </div>
       </form>
       <h4>Back</h4>
-       <div class="img-box furniture-front-image">
+      <div class="img-box furniture-front-image">
         <img
           v-if="this.product.productImages.back"
           :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.back}`"
@@ -98,11 +100,13 @@
       </div>
       <form @submit.prevent="handleSubmitBack">
         <div class="form-group">
-          <input type="file" @change="uploadFile" />
+          <input class="btn-upload" type="file" @change="uploadFile" />
         </div>
 
         <div class="form-group">
-          <button class="btn btn-success btn-block btn-lg">Upload</button>
+          <button class="btn btn-success btn-block btn-lg btn-submit">
+            Datei Hochladen
+          </button>
         </div>
       </form>
       <h4>Etui</h4>
@@ -115,11 +119,18 @@
       </div>
       <form @submit.prevent="handleSubmitEtui">
         <div class="form-group">
-          <input type="file" @change="uploadFile" />
+          <input
+
+            type="file"
+            @change="uploadFile"
+            class="btn-upload"
+          />
         </div>
 
         <div class="form-group">
-          <button class="btn btn-success btn-block btn-lg">Upload</button>
+          <button class="btn btn-success btn-block btn-lg btn-submit">
+            Datei Hochladen
+          </button>
         </div>
       </form>
       <h4>Verpackung</h4>
@@ -132,15 +143,17 @@
       </div>
       <form @submit.prevent="handleSubmitBoxing">
         <div class="form-group">
-          <input type="file" @change="uploadFile" />
+          <input class="btn-upload" type="file" @change="uploadFile" />
         </div>
 
         <div class="form-group">
-          <button class="btn btn-success btn-block btn-lg">Upload</button>
+          <button class="btn btn-success btn-block btn-lg btn-submit">
+            Hochladen
+          </button>
         </div>
       </form>
       <h3>Kalkulation</h3>
-    <form-currency-input
+      <form-currency-input
         label="Summe Artikel"
         v-model="product.productCalculation.set"
       />
@@ -186,7 +199,6 @@
         label="RECHNUNGSBETRAG B2C INKL. STEUER"
         v-model="product.productCalculation.bill_sum_04"
       />
-
 
       <div class="list-container">
         <div class="placeholder"></div>
@@ -458,5 +470,20 @@ export default {
 }
 .placeholder {
   margin: 25px;
+}
+.btn-upload {
+  background: #303030 !important;
+  color: white;
+  width: 300px;
+  border: none;
+}
+
+.btn-submit {
+  background: #303030;
+  border: none;
+  color: white;
+  padding: 5px;
+  width: 300px;
+  margin-top: 10px;
 }
 </style>
