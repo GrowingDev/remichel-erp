@@ -70,6 +70,61 @@
         v-model="product.productCalculation.price_private"
       />
       <div class="placeholder"></div>
+      <h3>Kalkulation</h3>
+      <form-currency-input
+        label="Summe Artikel"
+        v-model="product.productCalculation.set"
+      />
+      <form-currency-input
+        label="Komplettierung"
+        v-model="product.productCalculation.completition"
+      />
+      <form-currency-input
+        label="Überverpackung"
+        v-model="product.productCalculation.packaging"
+      />
+      <form-currency-input
+        label="Logistik"
+        v-model="product.productCalculation.logistic"
+      />
+      <div class="placeholder"></div>
+      <form-currency-input label="Gesamtsumme" />
+      <form-currency-input
+        label="Lizenzgebühr 6%"
+        v-model="product.productCalculation.license"
+      />
+      <div class="placeholder"></div>
+      <form-currency-input label="EP Netto" />
+      <form-currency-input label="EH Spanne +100%" />
+      <form-currency-input label="Gesamt Netto" />
+      <form-currency-input label="Mehrwertsteuer 20%" />
+
+      <form-currency-input
+        label="VK B2C"
+        v-model="product.productCalculation.price_Customer"
+      />
+      <div class="placeholder"></div>
+      <form-currency-input label="RECHNUNGSBETRAG B2B NETTO" />
+      <form-currency-input
+        label="RECHNUNGSBETRAG B2B INKL. STEUER"
+        v-model="product.productCalculation.bill_sum_02"
+      />
+      <form-currency-input
+        label="RECHNUNGSBETRAG B2C NETTO"
+        v-model="product.productCalculation.bill_sum_03"
+      />
+      <form-currency-input
+        label="RECHNUNGSBETRAG B2C INKL. STEUER"
+        v-model="product.productCalculation.bill_sum_04"
+      />
+      <div class="placeholder"></div>
+      <h3>Produktkomponent</h3>
+      <product-components
+        :components="this.product.productComponents"
+        :toogle="toogleSelectComponents"
+        v-if="!select"
+      />
+      <select-components v-if="select" :toogle="toogleSelectComponents" />
       <h3>Produktbilder</h3>
       <h4>Front</h4>
       <div class="img-box furniture-front-image">
@@ -119,12 +174,7 @@
       </div>
       <form @submit.prevent="handleSubmitEtui">
         <div class="form-group">
-          <input
-
-            type="file"
-            @change="uploadFile"
-            class="btn-upload"
-          />
+          <input type="file" @change="uploadFile" class="btn-upload" />
         </div>
 
         <div class="form-group">
@@ -152,57 +202,11 @@
           </button>
         </div>
       </form>
-      <h3>Kalkulation</h3>
-      <form-currency-input
-        label="Summe Artikel"
-        v-model="product.productCalculation.set"
-      />
-      <form-currency-input
-        label="Komplettierung"
-        v-model="product.productCalculation.completition"
-      />
-      <form-currency-input
-        label="Überverpackung"
-        v-model="product.productCalculation.packaging"
-      />
-      <form-currency-input
-        label="Logistik"
-        v-model="product.productCalculation.logistic"
-      />
-      <div class="placeholder"></div>
-      <form-currency-input label="Gesamtsumme" />
-      <form-currency-input
-        label="Lizenzgebühr 6%"
-        v-model="product.productCalculation.license"
-      />
-      <div class="placeholder"></div>
-      <form-currency-input label="EP Netto" />
-      <form-currency-input label="EH Spanne +100%" />
-      <form-currency-input label="Gesamt Netto" />
-      <form-currency-input label="Mehrwertsteuer 20%" />
-
-      <form-currency-input
-        label="VK B2C"
-        v-model="product.productCalculation.price_Customer"
-      />
-      <div class="placeholder"></div>
-      <form-currency-input label="RECHNUNGSBETRAG B2B NETTO" />
-      <form-currency-input
-        label="RECHNUNGSBETRAG B2B INKL. STEUER"
-        v-model="product.productCalculation.bill_sum_02"
-      />
-      <form-currency-input
-        label="RECHNUNGSBETRAG B2C NETTO"
-        v-model="product.productCalculation.bill_sum_03"
-      />
-      <form-currency-input
-        label="RECHNUNGSBETRAG B2C INKL. STEUER"
-        v-model="product.productCalculation.bill_sum_04"
-      />
 
       <div class="list-container">
         <div class="placeholder"></div>
       </div>
+
       <menu-bar :saveDocument="save" :deleteDocument="deleteProduct" />
     </div>
   </div>
@@ -215,7 +219,8 @@ import FormInput from '~/components/forms/form-input.vue'
 import FormSelect from '~/components/forms/form-select.vue'
 import FormTitle from '~/components/forms/form-title.vue'
 import menubar from '~/components/menu-bar/menu-bar.vue'
-
+import ProductComponents from '@/components/lists/ProductComponents.vue'
+import SelectComponents from '@/components/lists/SelectComponents.vue'
 export default {
   name: 'ProductPage',
   components: {
@@ -225,6 +230,8 @@ export default {
     FormInput,
     menubar,
     FormImages,
+    ProductComponents,
+    SelectComponents,
   },
   mounted() {
     if (this.$route.params.id !== 'new') {
@@ -234,10 +241,11 @@ export default {
   data() {
     return {
       files: null,
+      select: false,
       product: {
         productDescription: {},
         productCalculation: {},
-        productComponents: {},
+        productComponents: [],
         productImages: {
           front: '',
           back: '',
@@ -249,6 +257,10 @@ export default {
   },
 
   methods: {
+    toogleSelectComponents() {
+      this.select = !this.select
+      console.log(this.select)
+    },
     uploadFile(event) {
       this.files = event.target.files
     },
@@ -270,7 +282,6 @@ export default {
         .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
         .then((res) => {
           this.product.productImages.front = res.data
-          console.log(res.data)
         })
     },
     handleSubmitBack() {
@@ -282,7 +293,6 @@ export default {
         .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
         .then((res) => {
           this.product.productImages.back = res.data
-          console.log(res.data)
         })
     },
     handleSubmitEtui() {
@@ -294,7 +304,6 @@ export default {
         .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
         .then((res) => {
           this.product.productImages.etui = res.data
-          console.log(res.data)
         })
     },
     handleSubmitBoxing() {
@@ -306,7 +315,6 @@ export default {
         .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
         .then((res) => {
           this.product.productImages.boxing = res.data
-          console.log(res.data)
         })
     },
 
@@ -337,6 +345,14 @@ export default {
         etui
         boxing
       }
+      productComponents{
+        amount
+        article{
+          articleId
+          title
+          description
+        }
+      }
       productCalculation{
         set
         completition
@@ -361,7 +377,7 @@ export default {
         })
         .then((res) => {
           this.product = res.data.product
-          console.log(this.product)
+          console.log(this.product.productComponents)
         })
     },
     createProduct() {
