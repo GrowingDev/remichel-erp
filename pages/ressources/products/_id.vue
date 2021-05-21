@@ -120,17 +120,21 @@
       <div class="placeholder"></div>
       <h3>Produktkomponent</h3>
       <product-components
-        :components="this.product.productComponents"
+        :components="product.productComponents"
         :toogle="toogleSelectComponents"
         v-if="!select"
       />
-      <select-components v-if="select" :toogle="toogleSelectComponents" />
+      <selectable-components
+        v-if="select"
+        :toogle="toogleSelectComponents"
+        :items="product.productComponents"
+      />
       <h3>Produktbilder</h3>
       <h4>Front</h4>
       <div class="img-box furniture-front-image">
         <img
-          v-if="this.product.productImages.front"
-          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.front}`"
+          v-if="product.productImages.front"
+          :src="`https://uploads.remichelgroup.com/static/${product.productImages.front}`"
           onerror="this.style.display='none'"
         />
       </div>
@@ -148,8 +152,8 @@
       <h4>Back</h4>
       <div class="img-box furniture-front-image">
         <img
-          v-if="this.product.productImages.back"
-          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.back}`"
+          v-if="product.productImages.back"
+          :src="`https://uploads.remichelgroup.com/static/${product.productImages.back}`"
           onerror="this.style.display='none'"
         />
       </div>
@@ -167,8 +171,8 @@
       <h4>Etui</h4>
       <div class="img-box furniture-front-image">
         <img
-          v-if="this.product.productImages.etui"
-          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.etui}`"
+          v-if="product.productImages.etui"
+          :src="`https://uploads.remichelgroup.com/static/${product.productImages.etui}`"
           onerror="this.style.display='none'"
         />
       </div>
@@ -186,8 +190,8 @@
       <h4>Verpackung</h4>
       <div class="img-box furniture-front-image">
         <img
-          v-if="this.product.productImages.etui"
-          :src="`https://uploads.remichelgroup.com/static/${this.product.productImages.boxing}`"
+          v-if="product.productImages.etui"
+          :src="`https://uploads.remichelgroup.com/static/${product.productImages.boxing}`"
           onerror="this.style.display='none'"
         />
       </div>
@@ -219,10 +223,20 @@ import FormInput from '~/components/forms/form-input.vue'
 import FormSelect from '~/components/forms/form-select.vue'
 import FormTitle from '~/components/forms/form-title.vue'
 import menubar from '~/components/menu-bar/menu-bar.vue'
-import ProductComponents from '@/components/lists/ProductComponents.vue'
-import SelectComponents from '@/components/lists/SelectComponents.vue'
+import ProductComponents from '~/components/lists/product-components/ProductComponents.vue'
+import SelectableComponents from '~/components/lists/SelectableComponents.vue'
 export default {
   name: 'ProductPage',
+  computed: {
+ product(){
+   return this.$store.state.ressources.products.product
+ }
+  },
+  async beforeMount() {
+    this.$store.dispatch('ressources/products/initProductState', {
+      id: this.$route.params.id,
+    })
+  },
   components: {
     FormTitle,
     FormCurrencyInput,
@@ -231,35 +245,17 @@ export default {
     menubar,
     FormImages,
     ProductComponents,
-    SelectComponents,
-  },
-  mounted() {
-    if (this.$route.params.id !== 'new') {
-      this.getProduct(this.$route.params.id)
-    }
+    SelectableComponents,
   },
   data() {
     return {
       files: null,
       select: false,
-      product: {
-        productDescription: {},
-        productCalculation: {},
-        productComponents: [],
-        productImages: {
-          front: '',
-          back: '',
-          etui: '',
-          boxing: '',
-        },
-      },
     }
   },
-
   methods: {
     toogleSelectComponents() {
       this.select = !this.select
-      console.log(this.select)
     },
     uploadFile(event) {
       this.files = event.target.files
@@ -317,69 +313,6 @@ export default {
           this.product.productImages.boxing = res.data
         })
     },
-
-    getProduct(id) {
-      console.log(id)
-      this.$axios
-        .$post('https://api.remichelgroup.com', {
-          query: `
-       query Product($id: ID!) {
-        product(id: $id) {
-          id
-          productId
-  productDescription{
-    title
-    etui
-    furniture
-    productGroup
-    inlay
-    package
-    weight
-    size
-    ean
-    eori
-      }
-      productImages{
-        front
-        back
-        etui
-        boxing
-      }
-      productComponents{
-        amount
-        article{
-          articleId
-          title
-          description
-        }
-      }
-      productCalculation{
-        set
-        completition
-        packaging
-        logistic
-        license
-        price_Customer
-        price_private
-        price_business
-        bill_sum_01
-        bill_sum_02
-        bill_sum_03
-        bill_sum_04
-      }
-        }
-      }
-        `,
-          fetchPolicy: 'no-cache',
-          variables: {
-            id: id,
-          },
-        })
-        .then((res) => {
-          this.product = res.data.product
-          console.log(this.product.productComponents)
-        })
-    },
     createProduct() {
       this.$axios
         .$post('https://api.remichelgroup.com/', {
@@ -402,37 +335,7 @@ export default {
         })
     },
     updateProduct() {
-      this.$axios
-        .$post('https://api.remichelgroup.com/', {
-          query: `
-       mutation updateProduct($id: ID!, $input: productInput) {
-  updateProduct(id:$id,input: $input) {
-    productDescription {
-      title
-    }
-    productImages{
-        front
-        back
-        etui
-        boxing
-      }
-  }
-}
-        `,
-          fetchPolicy: 'no-cache',
-          variables: {
-            id: this.product.id,
-            input: {
-              productDescription: this.product.productDescription,
-              productCalculation: this.product.productCalculation,
-              productComponents: this.product.productComponents,
-              productImages: this.product.productImages,
-            },
-          },
-        })
-        .then((res) => {
-          this.$router.back()
-        })
+      this.$store.dispatch('ressources/products/updateProduct')
     },
     deleteProduct(id) {
       console.log('delete Product', this.product.id)

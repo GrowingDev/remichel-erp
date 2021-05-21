@@ -1,10 +1,10 @@
 <template>
   <div class="page">
     <div class="page-header">
-      <h2 v-if="this.list.length !== 0">Produkte</h2>
+      <h2 v-if="this.products.length !== 0">Produkte</h2>
     </div>
     <div class="page-body">
-      <table-products :listItems="list" />
+      <table-products :listItems="products" />
     </div>
     <menu-bar :openDocument="openNewDocument" />
   </div>
@@ -28,16 +28,18 @@ export default {
     TableProducts,
   },
   beforeMount() {
-    this.getProducts()
+    this.$store.dispatch('ressources/products/initProductsState')
   },
   computed: {
     onboarding() {
       return this.$store.state.ressources.products.onboarding
     },
+    products(){
+      return this.$store.state.ressources.products.products
+    }
   },
   data: () => {
     return {
-      list: [],
       typ: '',
       page: 0,
     }
@@ -45,28 +47,7 @@ export default {
   methods: {
     openNewDocument() {
       this.$router.push(`/ressources/products/new`)
-    },
-    async getProducts() {
-      this.list = await this.$axios
-        .$post('https://api.remichelgroup.com/', {
-          query: `
-      query {
-        products {
-          id
-          productId
-          productDescription{
-            title
-          productGroup
-          }
-        }
-      }
-        `,
-        })
-        .then((res) => {
-          return res.data.products
-        })
-      console.log(this.list)
-    },
+    }
   },
 }
 </script>
