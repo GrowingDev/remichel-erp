@@ -76,47 +76,31 @@
         v-model="componentCosts"
         :disabled="true"
       />
-      <form-currency-input
-        label="Komplettierung"
-        v-model="product.productCalculation.completition"
-      />
-      <form-currency-input
-        label="Überverpackung"
-        v-model="product.productCalculation.packaging"
-      />
-      <form-currency-input
-        label="Logistik"
-        v-model="product.productCalculation.logistic"
-      />
+      <form-currency-input label="Komplettierung" v-model="completition" />
+      <form-currency-input label="Überverpackung" v-model="packaging" />
+      <form-currency-input label="Logistik" v-model="logistic" />
       <div class="placeholder"></div>
-      <form-currency-input label="Gesamtsumme" />
-      <form-currency-input
-        label="Lizenzgebühr 6%"
-        v-model="product.productCalculation.license"
+      <form-currency-input label="Gesamtsumme" v-model="firstTotal" />
+      <form-percent-input
+        label="Lizenzgebühr Prozentsatz"
+        v-model="licensePercent"
       />
+      <form-currency-input label="Lizenzgebühr" v-model="license" />
       <div class="placeholder"></div>
-      <form-currency-input label="EP Netto" />
-      <form-currency-input label="EH Spanne +100%" />
-      <form-currency-input label="Gesamt Netto" />
-      <form-currency-input label="Mehrwertsteuer 20%" />
+      <form-currency-input label="EP Netto" v-model="epNet" />
+      <form-currency-input label="EH Spanne +100%" v-model="epNet" />
+      <form-currency-input label="Gesamt Netto" v-model="totalNet" />
+      <form-currency-input label="Mehrwertsteuer 20%" v-model="mwst" />
 
       <form-currency-input
         label="VK B2C"
-        v-model="product.productCalculation.price_Customer"
+        v-model="vkB2C"
       />
       <div class="placeholder"></div>
-      <form-currency-input label="RECHNUNGSBETRAG B2B NETTO" />
+      <form-currency-input label="RECHNUNGSBETRAG B2B NETTO"  v-model="totalNet" />
       <form-currency-input
         label="RECHNUNGSBETRAG B2B INKL. STEUER"
-        v-model="product.productCalculation.bill_sum_02"
-      />
-      <form-currency-input
-        label="RECHNUNGSBETRAG B2C NETTO"
-        v-model="product.productCalculation.bill_sum_03"
-      />
-      <form-currency-input
-        label="RECHNUNGSBETRAG B2C INKL. STEUER"
-        v-model="product.productCalculation.bill_sum_04"
+        v-model="vkB2C"
       />
       <div class="placeholder"></div>
       <h3>Produktkomponent</h3>
@@ -226,22 +210,99 @@ import FormTitle from '~/components/forms/form-title.vue'
 import menubar from '~/components/menu-bar/menu-bar.vue'
 import ProductComponents from '~/components/lists/product-components/ProductComponents.vue'
 import SelectableComponents from '~/components/lists/SelectableComponents.vue'
+import FormPercentInput from '~/components/forms/form-percent-input.vue'
 export default {
   name: 'ProductPage',
   computed: {
- product(){
-   return this.$store.state.ressources.products.product
- },
- componentCosts(){
-   let sum;
-   let arr = this.$store.state.ressources.products.product.productComponents.map(function(component){
+    product() {
+      return this.$store.state.ressources.products.product
+    },
+    componentCosts() {
+      let sum
+      let arr = this.$store.state.ressources.products.product.productComponents.map(
+        function (component) {
+          let totalCosts = component.cost * component.amount
+          sum + totalCosts
+          return totalCosts
+        }
+      )
+      return arr.reduce(function (acc, val) {
+        return acc + val
+      }, 0)
+    },
+    completition: {
+      // getter
+      get: function () {
+        return this.product.productCalculation.completition
+      },
+      // setter
+      set: function (newValue) {
+        this.product.productCalculation.completition = parseFloat(newValue)
+      },
+    },
+    packaging: {
+      // getter
+      get: function () {
+        return this.product.productCalculation.packaging
+      },
+      // setter
+      set: function (newValue) {
+        this.product.productCalculation.packaging = parseFloat(newValue)
+      },
+    },
+    logistic: {
+      // getter
+      get: function () {
+        return this.product.productCalculation.logistic
+      },
+      // setter
+      set: function (newValue) {
+        this.product.productCalculation.logistic = parseFloat(newValue)
+      },
+    },
 
-      let totalCosts = component.cost*component.amount
-      sum + totalCosts
-      return totalCosts
-    })
-    return arr.reduce(function(acc, val) { return acc + val; }, 0)
- }
+    licensePercent: {
+      // getter
+      get: function () {
+        return this.product.productCalculation.licensePercent
+      },
+      // setter
+      set: function (newValue) {
+        this.product.productCalculation.licensePercent = parseFloat(newValue)
+      },
+    },
+    license() {
+      let onePercent = this.firstTotal / 100
+      let sum = onePercent * this.product.productCalculation.licensePercent
+      return sum
+    },
+    epNet() {
+      let net = this.license + this.firstTotal
+
+      return net
+    },
+    retailProfit() {
+      return this.epNet
+    },
+    totalNet() {
+      return this.epNet * 2
+    },
+    mwst() {
+      let totalNet = this.epNet * 2
+
+      return totalNet * 0.2
+    },
+    vkB2C(){
+      return this.mwst + this.epNet * 2
+    },
+    firstTotal() {
+      let firstTotal =
+        this.componentCosts +
+        this.product.productCalculation.completition +
+        this.product.productCalculation.packaging +
+        this.product.productCalculation.logistic
+      return firstTotal
+    },
   },
   async beforeMount() {
     this.$store.dispatch('ressources/products/initProductState', {
@@ -257,6 +318,7 @@ export default {
     FormImages,
     ProductComponents,
     SelectableComponents,
+    FormPercentInput,
   },
   data() {
     return {

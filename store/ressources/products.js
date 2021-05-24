@@ -125,6 +125,7 @@ eori
     completition
     packaging
     logistic
+    licensePercent
     license
     price_Customer
     price_private
