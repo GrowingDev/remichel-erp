@@ -80,28 +80,24 @@
       <form-currency-input label="Überverpackung" v-model="packaging" />
       <form-currency-input label="Logistik" v-model="logistic" />
       <div class="placeholder"></div>
-      <form-currency-input label="Gesamtsumme" v-model="firstTotal" />
+      <form-currency-input label="Gesamtsumme" v-model="firstTotal" :disabled="true"/>
       <form-percent-input
         label="Lizenzgebühr Prozentsatz"
         v-model="licensePercent"
       />
-      <form-currency-input label="Lizenzgebühr" v-model="license" />
+      <form-currency-input label="Lizenzgebühr" v-model="license" :disabled="true"/>
       <div class="placeholder"></div>
-      <form-currency-input label="EP Netto" v-model="epNet" />
-      <form-currency-input label="EH Spanne +100%" v-model="epNet" />
-      <form-currency-input label="Gesamt Netto" v-model="totalNet" />
-      <form-currency-input label="Mehrwertsteuer 20%" v-model="mwst" />
+      <form-currency-input label="EP Netto" v-model="epNet" :disabled="true" />
+      <form-currency-input label="EH Spanne +100%" v-model="epNet" :disabled="true"/>
+      <form-currency-input label="Gesamt Netto" v-model="totalNet" :disabled="true"/>
+      <form-currency-input label="Mehrwertsteuer 20%" v-model="mwst" :disabled="true"/>
 
       <form-currency-input
         label="VK B2C"
         v-model="vkB2C"
+        :disabled="true"
       />
-      <div class="placeholder"></div>
-      <form-currency-input label="RECHNUNGSBETRAG B2B NETTO"  v-model="totalNet" />
-      <form-currency-input
-        label="RECHNUNGSBETRAG B2B INKL. STEUER"
-        v-model="vkB2C"
-      />
+
       <div class="placeholder"></div>
       <h3>Produktkomponent</h3>
       <product-components

@@ -4,7 +4,6 @@
     <input
       class="currency-input-input"
       v-bind="$attrs"
-      type="number"
       :disabled="disabled"
       placeholder="00.00"
       :value="value"
@@ -24,7 +23,8 @@ export default {
   },
   watch: {
     value(value) {
-      return parseFloat(value)
+
+      return parseFloat(value).toFixed(2)
     },
   },
 }

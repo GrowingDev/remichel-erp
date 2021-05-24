@@ -2,6 +2,7 @@
   <label class="form-percent-input">
     <div class="percent-input-description">{{ label }}</div>
     <input
+      step=".01"
       class="percent-input-input"
       v-bind="$attrs"
       type="number"
@@ -17,7 +18,7 @@
 <script>
 export default {
   name: 'FormPercentInput',
-  props: ['value', 'label','disabled'],
+  props: ['value', 'label', 'disabled'],
   model: {
     prop: 'value',
     event: 'update',
