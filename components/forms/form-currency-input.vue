@@ -4,6 +4,8 @@
     <input
       class="currency-input-input"
       v-bind="$attrs"
+      type="number"
+      :disabled="disabled"
       placeholder="00.00"
       :value="value"
       @input="$emit('update', $event.target.value)"
@@ -15,7 +17,7 @@
 <script>
 export default {
   name: 'FormCurrencyInput',
-  props: ['value', 'label'],
+  props: ['value', 'label','disabled'],
   model: {
     prop: 'value',
     event: 'update',

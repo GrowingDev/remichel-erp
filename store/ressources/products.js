@@ -5,6 +5,7 @@ export const state = () => ({
   product: {
     productDescription: {},
     productCalculation: {},
+    productComponents: [],
     productImages: {},
   },
 })
@@ -12,11 +13,11 @@ export const getters = {
   product: (state) => {
     return state.product
   },
-  productIDs: (state) => {
-    return state.productIds
-  },
   availableComponents: (state) => {
     return state.availableComponents
+  },
+  productComponents: (state) => {
+    return state.product.productComponents
   },
 }
 

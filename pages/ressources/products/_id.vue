@@ -73,7 +73,8 @@
       <h3>Kalkulation</h3>
       <form-currency-input
         label="Summe Artikel"
-        v-model="product.productCalculation.set"
+        v-model="componentCosts"
+        :disabled="true"
       />
       <form-currency-input
         label="Komplettierung"
@@ -230,6 +231,16 @@ export default {
   computed: {
  product(){
    return this.$store.state.ressources.products.product
+ },
+ componentCosts(){
+   let sum;
+   let arr = this.$store.state.ressources.products.product.productComponents.map(function(component){
+
+      let totalCosts = component.cost*component.amount
+      sum + totalCosts
+      return totalCosts
+    })
+    return arr.reduce(function(acc, val) { return acc + val; }, 0)
  }
   },
   async beforeMount() {

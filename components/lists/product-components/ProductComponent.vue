@@ -101,9 +101,11 @@ export default {
   flex-direction: row;
   justify-content: center;
   align-items: center;
+    margin:5px;
 }
 .btn-amount:hover {
   cursor: pointer;
+
 }
 #amount {
   margin-left: 5px;
