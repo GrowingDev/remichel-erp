@@ -33,11 +33,12 @@ export default {
   color: $background-primary;
   h1 {
     font-size: 25px;
+    letter-spacing: 1.6pt;
   }
 }
 
 .form-title-second-word {
-  font-weight: 100;
+  font-weight: 200;
 
   color: $background-primary;
 }

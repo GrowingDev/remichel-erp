@@ -1,7 +1,6 @@
 <template>
   <div class="page">
     <div class="page-header">
-      <h1 v-if="this.list.length !== 0">test</h1>
     </div>
     <div class="page-body">
       <loading-spinner v-if="$fetchState.pending" />
@@ -19,7 +18,7 @@
         :action="newDocument"
       />
     </div>
-    <menu-bar :newDocument="newDocument" v-if="!$fetchState.pending && !$fetchState.error"/>
+    <menu-bar :newDocument="newDocument"/>
   </div>
 </template>
 

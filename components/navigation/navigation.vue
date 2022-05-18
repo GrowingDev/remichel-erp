@@ -1,7 +1,7 @@
 <template>
   <div id="navigation">
     <div id="navigation-header">
-      <navigation-title :title="'remichel administration'" />
+      <navigation-title :title="'remichel erp'" />
     </div>
     <div id="navigation-sub-header-placeholder">
       <h1 v-if="subNavigation" id="navigation-sub-header">
@@ -95,6 +95,7 @@ export default {
   justify-content: space-between;
   position: fixed;
   left: 0;
+    letter-spacing: 1.6pt;
 }
 
 #navigation-header,

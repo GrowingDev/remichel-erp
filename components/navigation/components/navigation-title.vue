@@ -32,12 +32,12 @@ export default {
   text-transform: uppercase;
   color: $color-primary;
   h1 {
-    font-size: 18px;
+    font-size: 22px;
   }
 }
 
 .secondWord {
-  font-weight: 150;
+  font-weight: 300;
   color: white;
 }
 </style>
