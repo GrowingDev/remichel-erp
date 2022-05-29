@@ -32,7 +32,8 @@ export default {
   text-transform: uppercase;
   color: $background-primary;
   h1 {
-    font-size: 25px;
+    font-size: 3.052rem;
+    font-weight: 400;
   }
 }
 

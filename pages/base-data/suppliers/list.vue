@@ -1,10 +1,10 @@
 <template>
   <div class="page">
     <div class="page-header">
-      <h2 v-if="this.list.length !== 0">lieferanten</h2>
+     <form-title title="lieferanten" />
     </div>
     <div class="page-body">
-      <table-suppliers :listItems="list" />
+      <table-suppliers :listItems="suppliers" />
     </div>
     <menu-bar :openDocument="openNewDocument" />
   </div>
@@ -17,6 +17,7 @@ import MenuBar from '~/components/menu-bar/menu-bar'
 import LoadingSpinner from '~/components/pages/loading-spinner'
 import ErrorOccured from '@/components/pages/error-occured'
 import TableSuppliers from '~/components/tables/baseData/table-suppliers.vue'
+import FormTitle from '~/components/forms/form-title.vue'
 export default {
   name: 'list',
   components: {
@@ -26,51 +27,31 @@ export default {
     LoadingSpinner,
     ErrorOccured,
     TableSuppliers,
+    FormTitle
   },
-  computed: {
-    onboarding() {
-      return this.$store.state.baseData.suppliers.onboarding
-    },
+  computed:{
+    suppliers(){
+      return this.$store.state.baseData.suppliers.list
+    }
+  },
+   async fetch() {
+    let suppliers = await fetch(
+      process.env.API_URL + '/api/entitys/filter/SUPPLIER'
+    ).then((res) => res.json())
+    this.$store.commit('baseData/suppliers/setSuppliers', suppliers)
   },
   data: () => {
     return {
       doc: false,
-      list: [],
-      typ: '',
       page: 0,
     }
   },
-  beforeMount() {
-    this.getSuppliers()
-  },
+
   methods: {
     openNewDocument() {
       this.$router.push(`/base-data/suppliers/new`)
     },
-    async getSuppliers() {
-      this.list = await this.$axios
-        .$post('https://api.remichelgroup.com/', {
-          query: `
-      query {
-        suppliers {
-          id
-          supplierId
-          contactPerson {
-            email
-            phone01
-          }
-          billingAddress {
-            title
-          }
-        }
-      }
-        `,
-        })
-        .then((res) => {
-          return res.data.suppliers
-        })
-      console.log(this.list)
-    },
+
   },
 }
 </script>

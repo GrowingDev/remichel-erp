@@ -1,10 +1,10 @@
 <template>
   <div class="page">
     <div class="page-header">
-      <h2 v-if="this.list.length !== 0">artikel</h2>
+<form-title title="artikel"/>
     </div>
     <div class="page-body">
-      <table-articles :listItems="list" />
+      <table-articles />
     </div>
     <menu-bar :openDocument="openNewDocument" />
   </div>
@@ -16,6 +16,7 @@ import PageTitle from '~/components/page/page-title'
 import MenuBar from '~/components/menu-bar/menu-bar'
 import LoadingSpinner from '~/components/pages/loading-spinner.vue'
 import ErrorOccured from '~/components/pages/error-occured.vue'
+import FormTitle from '~/components/forms/form-title.vue'
 import TableArticles from '@/components/tables/ressources/table-articles'
 export default {
   name: 'list',
@@ -26,9 +27,13 @@ export default {
     LoadingSpinner,
     ErrorOccured,
     TableArticles,
+    FormTitle
   },
-  beforeMount() {
-    this.getArticles()
+  async fetch() {
+    let articles = await fetch(process.env.API_URL + '/api/articles').then(
+      (res) => res.json()
+    )
+    this.$store.commit('ressources/articles/setArticles', articles)
   },
   computed: {
     onboarding() {
@@ -37,8 +42,6 @@ export default {
   },
   data: () => {
     return {
-      list: [],
-      typ: '',
       page: 0,
     }
   },
@@ -46,28 +49,6 @@ export default {
   methods: {
     openNewDocument() {
       this.$router.push(`/ressources/articles/new`)
-    },
-    async getArticles() {
-      this.list = await this.$axios
-        .$post('https://api.remichelgroup.com', {
-          query: `
-      query {
-        articles {
-          id
-          articleId
-          title
-          description
-          articleGroup
-          supplier
-          supplierArticleId
-        }
-      }
-        `,
-        })
-        .then((res) => {
-          return res.data.articles
-        })
-      console.log(this.list)
     },
   },
 }

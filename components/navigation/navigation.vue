@@ -1,7 +1,7 @@
 <template>
   <div id="navigation">
     <div id="navigation-header">
-      <navigation-title :title="'remichel erp'" />
+      <navigation-title :title="'waren wirtschaft'" />
     </div>
     <div id="navigation-sub-header-placeholder">
       <h1 v-if="subNavigation" id="navigation-sub-header">
@@ -59,13 +59,13 @@ export default {
       if (e.key.match(regexp)) {
         if (!this.subNavigation) {
           if (e.key != '0') {
-           // this.$store.commit('navigation/selectSubNavigation', e.key - 1)
+            // this.$store.commit('navigation/selectSubNavigation', e.key - 1)
           }
         } else {
           if (e.key == '0') {
-           // this.$store.commit('navigation/toogleSubNavigation')
+            // this.$store.commit('navigation/toogleSubNavigation')
           } else {
-           // this.$store.commit('navigation/navigateTo', parseInt(e.key))
+            // this.$store.commit('navigation/navigateTo', parseInt(e.key))
           }
         }
       }
@@ -95,7 +95,7 @@ export default {
   justify-content: space-between;
   position: fixed;
   left: 0;
-    letter-spacing: 1.6pt;
+  letter-spacing: 1.6pt;
 }
 
 #navigation-header,
@@ -108,7 +108,8 @@ export default {
   align-items: flex-start;
 }
 #navigation-header {
-  padding-left: 50px;
+  align-items: center;
+  text-align: center;
 }
 #navigation-sub-header-placeholder {
   min-height: 100px;

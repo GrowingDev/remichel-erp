@@ -1,11 +1,11 @@
 <template>
   <div class="page">
     <div class="page-header">
-      <h2 v-if="this.list.length !== 0">Kunden</h2>
+  <form-title title="Kunden"/>
     </div>
     <div class="page-body">
         <table-customers
-      :listItems="list"/>
+      :listItems="customers"/>
     </div>
    <menu-bar :openDocument="openNewDocument" />
   </div>
@@ -19,6 +19,7 @@ import LoadingSpinner from '~/components/pages/loading-spinner'
 import ErrorOccured from '@/components/pages/error-occured'
 import TableCustomers from '~/components/tables/baseData/table-customers.vue'
 import Onboarding from '~/components/pages/onboarding.vue'
+import FormTitle from '~/components/forms/form-title.vue'
 export default {
   name: 'list',
   components: {
@@ -29,14 +30,21 @@ export default {
     ErrorOccured,
     TableCustomers,
     Onboarding,
+    FormTitle
   },
-   beforeMount() {
-    this.getCustomers()
+    async fetch() {
+    let customers = await fetch(
+      process.env.API_URL + '/api/entitys/filter/B2C'
+    ).then((res) => res.json())
+    this.$store.commit('baseData/customers/setCustomers', customers)
   },
   computed: {
     onboarding() {
       return this.$store.state.baseData.customers.onboarding
     },
+    customers(){
+      return this.$store.state.baseData.customers.list
+    }
   },
   data: () => {
     return {
@@ -50,32 +58,7 @@ export default {
       console.log()
     this.$router.push(`/base-data/customers/new`)
     },
-     async getCustomers() {
-      this.list = await this.$axios
-        .$post('https://api.remichelgroup.com', {
-          query: `
-      query {
-        customers {
-          id
-          customerId
-          customerGroup
-          status
-          contactPerson{
-            gender
-            lastName
-          }
-          billingAddress{
-            country
-          }
-        }
-      }
-        `,
-        })
-        .then((res) => {
-          return res.data.customers
-        })
-      console.log(this.list)
-    },
+
   },
 
 }

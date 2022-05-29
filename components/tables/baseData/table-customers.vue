@@ -12,11 +12,11 @@
       :key="listItem.id"
       @click="openListItem(listItem.id)"
     >
-      <label>{{ listItem.customerId }}</label>
-      <label>{{ listItem.contactPerson.gender }}</label>
-      <label>{{ listItem.customerGroup }}</label>
-      <label>{{ listItem.billingAddress.country }}</label>
-      <label> {{listItem.status}}</label>
+      <label>{{ listItem.id }}</label>
+      <label>{{ listItem.contact.gender }}</label>
+      <label>{{ listItem.customer_type }}</label>
+      <label>{{ listItem.billing_address.country }}</label>
+      <label> -- </label>
     </div>
   </div>
 </template>

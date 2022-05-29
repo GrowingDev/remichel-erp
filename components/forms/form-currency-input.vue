@@ -16,14 +16,13 @@
 <script>
 export default {
   name: 'FormCurrencyInput',
-  props: ['value', 'label','disabled'],
+  props: ['value', 'label', 'disabled'],
   model: {
     prop: 'value',
     event: 'update',
   },
   watch: {
     value(value) {
-
       return parseFloat(value).toFixed(2)
     },
   },

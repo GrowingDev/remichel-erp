@@ -6,12 +6,25 @@
       </p>
     </div>
 
-    <div class="table-item grid-cols" v-for="listItem in listItems" :key="listItem.id" @click="openListItem(listItem.id)">
-      <label>{{ listItem.productId }}</label>
-      <label>{{ listItem.productDescription.title }}</label>
-      <label>{{ listItem.productDescription.productGroup }}</label>
-      <label></label>
-      <label></label>
+    <div
+      class="table-item grid-cols"
+      v-for="listItem in products"
+      :key="listItem.id"
+      @click="openListItem(listItem.id)"
+    >
+      <label>{{ listItem.id }}</label>
+      <label>{{ listItem.name }}</label>
+      <label>{{ listItem.collection }}</label>
+      <label>
+        <img
+          class="thumbnail"
+          :src="`http://localhost:4000/images/${listItem.id}-front.png`"
+      /></label>
+      <label>
+        <img
+          class="thumbnail"
+          :src="`http://localhost:4000/images/${listItem.id}-back.png`"
+      /></label>
     </div>
   </div>
 </template>
@@ -23,6 +36,11 @@ export default {
     route: String,
     create: Boolean,
     listItems: Array,
+  },
+  computed: {
+    products() {
+      return this.$store.state.ressources.products.list
+    },
   },
   methods: {
     openListItem(id) {
@@ -44,7 +62,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.grid-cols{
+.grid-cols {
   grid-template-columns: repeat(5, 1fr);
+}
+.thumbnail {
+  width: 100%;
+  max-width:150px;
+  height: auto;
+padding:1rem;
 }
 </style>

@@ -4,132 +4,150 @@
       <form-title title="kunden anlage" style="align-self: center" />
       <div class="placeholder"></div>
       <form-input
-        label="Kundennummer"
-        placeholder="Kundennummer"
-        v-model="customer.customerId"
-      />
-      <form-input
         label="Kundengruppe"
         placeholder="Kundengruppe"
-        v-model="customer.customerGroup"
+        v-model="customer.customer_type"
       />
-      <section class="section-container" v-if="!privateCustomer">
-        <form-input label="Steuernummer" placeholder="Steuernummer" v-model="customer.identification.taxId"/>
+      <section class="section-container">
         <form-input
-          label="UID"
-          placeholder="UID"
-          v-model="customer.identification.cId"
+          label="Steuernummer"
+          placeholder="Steuernummer"
+          v-model="customer.taxId"
         />
+        <form-input label="UID" placeholder="UID" v-model="customer.uId" />
+        <form-input label="EORI" placeholder="EORI" v-model="customer.eori" />
         <form-input
-          label="EORI"
-          placeholder="EORI"
-          v-model="customer.identification.eori"
+          label="Phone"
+          placeholder="Phone"
+          v-model="customer.business_phone"
         />
         <form-input
           label="Homepage"
           placeholder="Homepage"
-          v-model="customer.contact.homepage"
+          v-model="customer.business_homepage"
         />
       </section>
-      <h3>Ansprechpartner</h3>
-      <form-input
+      <div class="placeholder"></div>
+      <h2>Ansprechpartner</h2>
+      <form-select
         label="Anrede"
-        placeholder="Anrede"
-        v-model="customer.contactPerson.gender"
+        defaultOption="Bitte wählen Sie"
+        :options="genders"
+        v-model="customer.contact.gender"
+      />
+      <form-input
+        label="Titel"
+        placeholder="Titel"
+        v-model="customer.contact.title"
       />
       <form-input
         label="Vorname"
         placeholder="Vorname"
-        v-model="customer.contactPerson.preName"
+        v-model="customer.contact.pre_name"
       />
       <form-input
         label="Nachname"
         placeholder="Nachname"
-        v-model="customer.contactPerson.lastName"
+        v-model="customer.contact.last_name"
       />
       <form-input
         label="Primäre Telefonnummer"
         placeholder="Primäre Telefonnummer"
-        v-model="customer.contactPerson.phone01"
+        v-model="customer.contact.phone_01"
       />
       <form-input
         label="Sekundäre Telefonnummer"
         placeholder="Sekundäre Telefonnummer"
-        v-model="customer.contactPerson.phone02"
+        v-model="customer.contact.phone_02"
       />
       <form-input
         label="E-Mail"
         placeholder="E-Mail"
-        v-model="customer.contactPerson.email"
+        v-model="customer.contact.mail"
       />
-      <h3>Rechnungsadresse</h3>
+      <div class="placeholder"></div>
+      <h2>Rechnungsadresse</h2>
 
       <form-input
         placeholder="Name"
         label="Name"
-        v-model="customer.billingAddress.title"
+        v-model="customer.billing_address.name"
       />
       <form-input
         label="Strasse"
         placeholder="Strasse"
-        v-model="customer.billingAddress.street"
+        v-model="customer.billing_address.street"
       />
-      <form-input label="Nr" placeholder="Nr" v-model="customer.billingAddress.streetNr" />
+      <form-input
+        label="Nr"
+        placeholder="Nr"
+        v-model="customer.billing_address.street_nr"
+      />
 
       <form-input
         label="straßenzusatz"
         placeholder="Straßenzusatz"
-        v-model="customer.billingAddress.streetExtension"
+        v-model="customer.billing_address.extension"
       />
 
       <form-input
         label="Postleitzahl"
         placeholder="Postleitzahl"
-        v-model="customer.billingAddress.postCode"
+        v-model="customer.billing_address.post_code"
       />
-      <form-input label="Ort" placeholder="Ort" v-model="customer.billingAddress.city" />
+      <form-input
+        label="Ort"
+        placeholder="Ort"
+        v-model="customer.billing_address.city"
+      />
       <form-input
         label="Land"
         placeholder="Land"
-        v-model="customer.billingAddress.country"
+        v-model="customer.billing_address.country"
       />
-      <section class="section-container" v-if="customer.shippingAddress">
-        <h3>Lieferadresse</h3>
+      <div class="placeholder"></div>
+      <section class="section-container" v-if="customer.shipping_address">
+        <h2>Lieferadresse</h2>
         <form-input
           placeholder="Name"
           label="Name"
-
+          v-model="customer.shipping_address.name"
         />
         <form-input
           label="Strasse"
           placeholder="Strasse"
-          v-model="customer.shippingAddress.street"
+          v-model="customer.shipping_address.street"
         />
         <form-input
           label="Nr"
           placeholder="Nr"
-          v-model="customer.shippingAddress.streetNr"
+          v-model="customer.shipping_address.street_nr"
         />
 
         <form-input
           label="straßenzusatz"
           placeholder="Straßenzusatz"
-          v-model="customer.shippingAddress.streetExtension"
+          v-model="customer.shipping_address.extension"
         />
 
         <form-input
           label="Postleitzahl"
           placeholder="Postleitzahl"
-          v-model="customer.shippingAddress.postCode"
+          v-model="customer.shipping_address.post_code"
         />
-        <form-input label="Ort" placeholder="Ort" v-model="customer.shippingAddress.city" />
+        <form-input
+          label="Ort"
+          placeholder="Ort"
+          v-model="customer.shipping_address.city"
+        />
         <form-input
           label="Land"
           placeholder="Land"
-          v-model="customer.shippingAddress.country"
+          v-model="customer.shipping_address.country"
         />
       </section>
-      <h3>Bestellhistorie</h3>
+      <div class="placeholder"></div>
+      <h2>Bestellhistorie</h2>
 
       <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
     </div>
@@ -140,107 +158,96 @@
 import formInput from '~/components/forms/form-input.vue'
 import FormTitle from '~/components/forms/form-title.vue'
 import MenuBar from '~/components/menu-bar/menu-bar.vue'
+import FormSelect from '~/components/forms/form-select.vue'
 
 export default {
-  components: { formInput, FormTitle, MenuBar },
+  components: { formInput, FormTitle, MenuBar, FormSelect },
   name: 'CustomerPage',
-  beforeMount() {
+  async mounted() {
     if (this.$route.params.id !== 'new') {
-      this.getCustomers(this.$route.params.id)
+      this.customer = await fetch(
+        process.env.API_URL + `/api/entitys/${this.$route.params.id}`
+      ).then((res) => res.json())
     }
-  },
-  methods: {
-    getCustomers(id) {
-      console.log(id)
-      this.$axios
-        .$post('https://api.remichelgroup.com', {
-          query: `
-       query Customer($id: ID!) {
-        customer(id: $id) {
-          id
-          customerId
-          status
-          customerGroup
-          billingAddress {
-            title
-            street
-            streetNr
-            streetExtension
-            postCode
-            country
-            city
-          }
-          contact {
-            phone01
-            homepage
-          }
-          identification {
-            taxId
-            cId
-            ean
-            eori
-            optionalId
-          }
-          contactPerson {
-            gender
-            preName
-            lastName
-            phone01
-            phone02
-            email
-          }
-          shippingAddress {
-            title
-            street
-            streetNr
-            streetExtension
-            postCode
-            country
-            city
-          }
-        }
-      }
-        `,
-          fetchPolicy: 'no-cache',
-          variables: {
-            id: id,
-          },
-        })
-        .then((res) => {
-          this.customer = res.data.customer
-          console.log(this.customer)
-        })
-    },
-    saveDocument() {},
   },
   data() {
     return {
       customer: {
-        identification: {},
+        customer_type: 'B2C',
         contact: {},
-        contactPerson: {},
-        billingAddress:{},
-        shipingAddress:{}
+        billing_address: {},
+        shipping_address: {},
       },
-      privateCustomer: false,
-      seperateShippingAddress: false,
-      listColumns: [
-        'Auftragsnummer',
-        'Rechnungsbetrag',
-        'Bestellt am',
-        'Status',
+      genders: [
+        {
+          value: 'MALE',
+          text: 'Herr',
+        },
+        {
+          value: 'FEMALE',
+          text: 'Frau',
+        },
+        {
+          value: 'DIVERSE',
+          text: 'Diverse',
+        },
       ],
     }
+  },
+  methods: {
+    saveDocument() {
+      if (this.$route.params.id !== 'new') {
+        this.$axios
+          .$put(
+            process.env.API_URL + `/api/entitys/${this.$route.params.id}`,
+            this.customer
+          )
+          .then((res) => {
+            console.log(res)
+            this.$router.back()
+          })
+      } else {
+        this.$axios
+          .$post(process.env.API_URL + `/api/entitys/`, this.customer)
+          .then((res) => {
+            console.log(res)
+            this.$router.back()
+          })
+      }
+    },
+    deleteDocument() {
+      this.$axios
+        .$delete(process.env.API_URL + `/api/entitys/${this.$route.params.id}`)
+        .then((res) => {
+          console.log(res)
+          this.$router.back()
+        })
+    },
   },
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
+h2 {
+  margin-bottom: 40px;
+  font-size: 1.953rem;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+h3 {
+  font-size: 1.563rem;
+}
+.placeholder {
+  margin: 80px;
+}
 .base-input-input--b:hover {
   background: #b6b6b6;
 }
 .base-input-input--a:hover {
   background: #b6b6b6;
+}
+.placeholder {
+  margin: 80px;
 }
 </style>
 

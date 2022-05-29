@@ -8,16 +8,16 @@
 
     <div
       class="table-item grid-cols"
-      v-for="listItem in listItems"
+      v-for="listItem in articles"
       :key="listItem.id"
       @click="openListItem(listItem.id)"
     >
-      <label>{{ listItem.articleId }}</label>
-      <label>{{ listItem.title }}</label>
+      <label>{{ listItem.id }}</label>
+      <label>{{ listItem.name }}</label>
       <label>{{ listItem.description }}</label>
-      <label>{{ listItem.articleGroup }}</label>
+      <label>{{ listItem.article_type }}</label>
       <label>{{ listItem.supplier }}</label>
-      <label>{{ listItem.supplierArticleId }}</label>
+      <label>{{ listItem.supplier_id }}</label>
     </div>
   </div>
 </template>
@@ -25,14 +25,17 @@
 <script>
 export default {
   name: 'TableArticles',
+  computed: {
+    articles() {
+      return this.$store.state.ressources.articles.list
+    },
+  },
   props: {
     route: String,
     create: Boolean,
-    listItems: Array,
   },
   methods: {
     openListItem(id) {
-      console.log(id)
       this.$router.push(`/ressources/articles/${id}`)
     },
   },

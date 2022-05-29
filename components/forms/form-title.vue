@@ -32,13 +32,14 @@ export default {
   text-transform: uppercase;
   color: $background-primary;
   h1 {
-    font-size: 25px;
+    font-size: 3.052rem;
+
     letter-spacing: 1.6pt;
   }
 }
 
 .form-title-second-word {
-  font-weight: 200;
+  font-weight: 100;
 
   color: $background-primary;
 }

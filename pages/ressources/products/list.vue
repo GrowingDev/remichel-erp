@@ -1,10 +1,10 @@
 <template>
   <div class="page">
     <div class="page-header">
-      <h2 v-if="this.products.length !== 0">Produkte</h2>
+     <form-title title="verkaufsartikel" />
     </div>
     <div class="page-body">
-      <table-products :listItems="products" />
+      <table-products  />
     </div>
     <menu-bar :openDocument="openNewDocument" />
   </div>
@@ -17,6 +17,7 @@ import MenuBar from '~/components/menu-bar/menu-bar'
 import LoadingSpinner from '~/components/pages/loading-spinner'
 import ErrorOccured from '@/components/pages/error-occured'
 import TableProducts from '~/components/tables/ressources/table-products.vue'
+import FormTitle from '~/components/forms/form-title.vue'
 export default {
   name: 'list',
   components: {
@@ -26,17 +27,19 @@ export default {
     LoadingSpinner,
     ErrorOccured,
     TableProducts,
+    FormTitle
   },
-  beforeMount() {
-    this.$store.dispatch('ressources/products/initProductsState')
+  async fetch() {
+    let products = await fetch(
+      process.env.API_URL + '/api/products'
+    ).then((res) => res.json())
+    this.$store.commit('ressources/products/setProducts', products)
   },
   computed: {
     onboarding() {
       return this.$store.state.ressources.products.onboarding
     },
-    products(){
-      return this.$store.state.ressources.products.products
-    }
+
   },
   data: () => {
     return {
@@ -51,3 +54,11 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+h2 {
+  font-size: 1.953rem;
+  width: 100%;
+  border-bottom: 2px solid black;
+}
+</style>

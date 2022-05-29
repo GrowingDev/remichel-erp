@@ -3,15 +3,17 @@
     <div id="article-basedata">
       <form-title title="artikel anlage" style="align-self: center" />
       <div class="placeholder"></div>
+
       <form-input
         label="artikelnummer"
         placeholder="Artikelnummer"
-        v-model="article.articleId"
+        v-model="article.id"
+        :disabled="true"
       />
       <form-input
         label="Artikel"
         placeholder="Artikel"
-        v-model="article.title"
+        v-model="article.name"
       />
       <form-input
         label="Beschreibung"
@@ -22,7 +24,7 @@
         label="Artikelgruppe"
         defaultOption="Bitte wählen Sie"
         :options="groups"
-        v-model="article.articleGroup"
+        v-model="article.article_type"
       />
       <form-select
         label="Lieferant"
@@ -32,34 +34,35 @@
       <form-input
         label="Externe Artikelnummer"
         placeholder="Externe Artikelnummer"
-        v-model="article.supplierArticleId"
+        v-model="article.supplier_id"
       />
       <form-input label="EAN" placeholder="EAN" v-model="article.ean" />
-      <h3>Kalkulation</h3>
+      <div class="placeholder"></div>
+      <h2>Kalkulation</h2>
       <form-currency-input
         label="Einkaufspreis"
         placeholder="Einkaufspreis"
-        v-model="article.purchasingPrice_01"
+        v-model="article.price"
       />
       <form-currency-input
         label="Aufschlag"
         placeholder="Aufschlag"
-        v-model="article.surcharge"
+        v-model="article.marge"
       />
       <form-currency-input
         label="Netto"
         placeholder="Netto"
-        v-model="article.net"
+        v-model="calcNetto"
       />
-      <form-input
-        label="Steuersatz in Prozent z.B 10%"
-        placeholder="Steuersatz in Prozent z.B 10%"
-        v-model="article.tax"
+      <form-currency-input
+        label="MEHRWERTSTEUER 20%"
+        placeholder="MEHRWERTSTEUER 20%"
+        v-model="calcMwst"
       />
       <form-currency-input
         label="Gesamt"
         placeholder="Gesamt"
-        v-model="article.total"
+        v-model="calcTotal"
       />
       <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
     </div>
@@ -76,27 +79,20 @@ import menuBar from '~/components/menu-bar/menu-bar.vue'
 export default {
   name: 'ArticlePage',
   components: { menuBar, FormInput, FormSelect, FormCurrencyInput, FormTitle },
-  mounted() {
-    if (this.$route.params.id !== 'new') {
-     this.getArticle(this.$route.params.id)
-    }
-  },
   data() {
     return {
-      article: {
-
-      },
+      article: {},
       groups: [
         {
           value: 'STANDARD',
           text: 'STANDARD',
         },
         {
-          value: 'FLÜGEL',
+          value: 'FLUEGEL',
           text: 'FLÜGEL',
         },
         {
-          value: 'HALTEBÜGEL',
+          value: 'HALTEBUEGEL',
           text: 'HALTEBÜGEL',
         },
         {
@@ -108,11 +104,11 @@ export default {
           text: 'DESIGN',
         },
         {
-          value: 'BÜGELHALTER',
+          value: 'BUEGELHALTER',
           text: 'BÜGELHALTER',
         },
         {
-          value: 'ÖFFNER',
+          value: 'OEFFNER',
           text: 'ÖFFNER',
         },
         {
@@ -130,56 +126,71 @@ export default {
       ],
     }
   },
-  methods: {
-    getArticle(id) {
-      console.log(id)
-      this.$axios
-        .$post('https://api.remichelgroup.com', {
-          query: `
-       query Article($id: ID!) {
-        article(id: $id) {
-          id
-          articleId
-          title
-          description
-          articleGroup
-          supplier
-          supplierArticleId
-          ean
-          eori
-          tax
-          total
-          purchasingPrice_01
-          purchasingPrice_02
-          purchasingPrice_03
-          purchasingPrice_04
-          net
-          surcharge
-
-        }
-      }
-        `,
-          fetchPolicy: 'no-cache',
-          variables: {
-            id: id,
-          },
-        })
-        .then((res) => {
-          this.article = res.data.article
-          console.log(this.article)
-        })
+  async fetch() {
+    if (this.$route.params.id !== 'new') {
+      this.article = await fetch(
+        process.env.API_URL + `/api/articles/${this.$route.params.id}`
+      ).then((res) => res.json())
+    }
+  },
+  computed: {
+    calcNetto() {
+      let netto = parseInt(this.article.price) + parseInt(this.article.marge)
+      return netto
     },
+    calcMwst() {
+      let netto = parseInt(this.article.price) + parseInt(this.article.marge)
+      let mwst = netto * 0.2
+      return mwst.toFixed(2)
+    },
+    calcTotal() {
+      let netto = parseInt(this.article.price) + parseInt(this.article.marge)
+      return netto * 1.2
+    },
+  },
+  methods: {
     saveDocument() {
+      if (this.$route.params.id !== 'new') {
+        this.article.total = this.calcTotal
 
+        this.$axios
+          .$put(
+            process.env.API_URL + `/api/articles/${this.$route.params.id}`,
+            this.article
+          )
+          .then((res) => {
+            this.$router.back()
+          })
+      } else {
+        this.article.total = this.calcTotal
+        this.$axios
+          .$post(process.env.API_URL + `/api/articles/`, this.article)
+          .then((res) => {
+            this.$router.back()
+          })
+      }
     },
     deleteDocument() {
-
+      this.$axios
+        .$delete(process.env.API_URL + `/api/articles/${this.$route.params.id}`)
+        .then((res) => {
+          this.$router.back()
+        })
     },
   },
 }
 </script>
 
 <style lang="scss" scoped >
+h2 {
+  font-size: 1.953rem;
+  width: 100%;
+  border-bottom: 2px solid black;
+  margin-bottom: 40px;
+}
+h3 {
+  font-size: 1.563rem;
+}
 #article {
   padding: 100px;
   text-align: start;
@@ -204,6 +215,6 @@ export default {
   }
 }
 .placeholder {
-  margin: 25px;
+  margin: 80px;
 }
 </style>

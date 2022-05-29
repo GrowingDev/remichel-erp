@@ -1,5 +1,6 @@
 export const state = () => ({
   list: [],
+  article: {},
   onboarding: [
     {
       title: 'Keine Artikel gefunden',
@@ -41,17 +42,12 @@ export const state = () => ({
 })
 
 export const mutations = {
-  add (state, text) {
-    state.list.push({
-      text,
-      done: false,
-      id: Date.now()
-    })
+
+  setArticle(state, article){
+    state.article = article
   },
-  remove (state, todo) {
-    state.list = state.list.filter(item => item.id !== todo.id)
-  },
-  toggle (state, todo) {
-    todo.done = !todo.done
+  setArticles(state, articles){
+    state.list = articles
   }
+
 }

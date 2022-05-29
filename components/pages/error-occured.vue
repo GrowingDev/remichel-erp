@@ -53,13 +53,14 @@ export default {
 }
 #error-occured-body {
   width: 100%;
-  height: 150px;
+
   display:flex;
   flex-direction: column;
   justify-content: center;
 }
 #error-occured-footer {
+  margin-top:40px;
   width: 100%;
-  height: 50px;
+
 }
 </style>

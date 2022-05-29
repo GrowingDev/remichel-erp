@@ -1,5 +1,6 @@
 export const state = () => ({
   list: [],
+
   onboarding: [
     {
       title: 'Keine Kunden gefunden',
@@ -7,40 +8,41 @@ export const state = () => ({
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deinen ersten Kunden anzulegen.',
       action: {
         active: true,
-        title: 'Was ist ein Kunde?'
+        title: 'Was ist ein Kunde?',
       },
     },
     {
       title: 'Was ist ein Kunde?',
-      description:
-        'Ein Kunde ist...',
+      description: 'Ein Kunde ist...',
       action: {
         active: true,
-        title: 'Weiter'
+        title: 'Weiter',
       },
     },
     {
       title: 'Was ist ein Kunde?',
-      description:
-        'Ein Kunde kann...',
+      description: 'Ein Kunde kann...',
       action: {
         active: true,
-        title: 'Weiter'
+        title: 'Weiter',
       },
     },
     {
       title: 'Was ist ein Kunde?',
-      description:
-        'Ende',
+      description: 'Ende',
       action: {
         active: false,
-        title: 'Weiter'
+        title: 'Weiter',
       },
     },
-
   ],
 })
 
 export const mutations = {
-
+  setCustomers(state, customers) {
+    state.list = customers
+  },
+  setCustomer(state, customer) {
+    state.customer = customer
+  },
 }

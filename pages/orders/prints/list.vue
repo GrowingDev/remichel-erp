@@ -1,6 +1,8 @@
 <template>
   <div class="page">
     <div class="page-header">
+
+     <form-title title="Druckauftäge" />
     </div>
     <div class="page-body">
       <loading-spinner v-if="$fetchState.pending" />
@@ -17,8 +19,9 @@
         :pages="this.onboarding"
         :action="newDocument"
       />
+            <table-prints :listItems="list" />
     </div>
-    <menu-bar :newDocument="newDocument"/>
+    <menu-bar :openDocument="openNewDocument" />
   </div>
 </template>
 
@@ -28,6 +31,8 @@ import PageTitle from '~/components/page/page-title'
 import MenuBar from '~/components/menu-bar/menu-bar'
 import LoadingSpinner from '~/components/pages/loading-spinner'
 import ErrorOccured from '@/components/pages/error-occured'
+import TablePrints from '@/components/tables/orders/table-prints.vue'
+import FormTitle from '~/components/forms/form-title.vue'
 export default {
   name: 'list',
   components: {
@@ -36,6 +41,8 @@ export default {
     MenuBar,
     LoadingSpinner,
     ErrorOccured,
+    TablePrints,
+    FormTitle
   },
   computed: {
     onboarding() {
@@ -51,24 +58,16 @@ export default {
     }
   },
   methods: {
-    newDocument() {
-      console.log('new Documents')
+    openNewDocument() {
+    this.$router.push(`/orders/prints/new`)
       this.doc = !this.doc
     },
   },
-  async fetch() {
-    this.list = await fetch(`http://localhost:9093/list`, {
-      method: 'POST',
-      mode: 'cors',
-      body: JSON.stringify({
-        Typ: this.typ,
-        Page: this.page,
-      }),
-    })
-      .then((res) => res.json())
-      .then((res) => {
-        return [...res.ArticleList]
-      })
+    async fetch() {
+    this.list = await fetch(
+      process.env.API_URL + '/api/prints'
+    ).then((res) => res.json())
+
   },
 }
 </script>

@@ -13,7 +13,7 @@
       @click="openListItem(listItem.id)"
     >
       <label>{{ listItem.id }}</label>
-      <label>{{ listItem.name }}</label>
+      <label>{{ listItem.orderId }}</label>
     </div>
   </div>
 </template>
@@ -29,12 +29,12 @@ export default {
   methods: {
     openListItem(id) {
       console.log(id)
-      this.$router.push(`/ressources/collections/${id}`)
+      this.$router.push(`/orders/prints/${id}`)
     },
   },
   data: () => {
     return {
-      headers: ['kollektionsnummer', 'Titel'],
+      headers: ['Druckauftragsnummer', 'Kundenauftragsnummer'],
     }
   },
 }

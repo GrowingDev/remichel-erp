@@ -1,30 +1,25 @@
 <template>
   <div class="doc">
     <div class="doc-basedata">
-      <form-title title="Artike gruppe" style="align-self: center" />
+      <form-title title="Kollektionen" style="align-self: center" />
       <div class="placeholder"></div>
       <form-input
-        label="Artikelgruppennummer"
-        placeholder="Artikelgruppennummer"
-        v-model="collection.collectionId"
+        label="Kollektionsnummer"
+        placeholder="Produktgruppennummer"
+        v-model="collection.id"
+        :disabled="true"
       />
       <form-input
         label="Bezeichnung"
         placeholder="Bezeichnung"
-        v-model="collection.title"
-      />
-
-      <form-input
-        label="Navigationsgruppe"
-        placeholder="Navigationsgruppe"
-        v-model="collection.navigationGroup"
+        v-model="collection.name"
       />
       <form-input
-        label="Navigationstext"
-        placeholder="Navigationstext"
-        v-model="collection.navigationText"
+        label="Erstellt am"
+        placeholder="Erstellt am"
+        v-model="collection.createdAt"
+        :disabled="true"
       />
-      <form-input label="Route" placeholder="Route" />
       <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteDocument" />
     </div>
   </div>
@@ -38,45 +33,47 @@ import MenuBar from '~/components/menu-bar/menu-bar.vue'
 export default {
   name: 'ProductGroup',
   components: { FormInput, MenuBar, FormTitle },
-  mounted() {
-    if (this.$route.params.id !== 'new') {
-      this.getCollection(this.$route.params.id)
-    }
+
+  computed: {
+    collection() {
+      return { ...this.$store.state.ressources.collections.collection }
+    },
   },
-  data() {
-    return {
-      collection: {},
-    }
+  async fetch() {
+    let collection = await fetch(
+      process.env.API_URL + `/api/collections/${this.$route.params.id}`
+    ).then((res) => res.json())
+    this.$store.commit('ressources/collections/setCollection', collection)
   },
   methods: {
-    getCollection(id) {
-      console.log(id)
-      this.$axios
-        .$post('https://api.remichelgroup.com', {
-          query: `
-       query Collection($id: ID!) {
-        collection(id: $id) {
-          id
-          collectionId
-          title
-          description
-          navigationText
-          navigationGroup
-        }
+    saveDocument() {
+      if (this.$route.params.id !== 'new') {
+        this.$axios
+          .$put(
+            process.env.API_URL + `/api/collections/${this.$route.params.id}`,
+           this.collection
+          )
+          .then((res) => {
+            this.$router.back()
+          })
+      } else {
+        this.$axios
+          .$post(process.env.API_URL + `/api/collections/`, this.collection)
+          .then((res) => {
+            this.$router.back()
+          })
       }
-        `,
-          fetchPolicy: 'no-cache',
-          variables: {
-            id: id,
-          },
-        })
+    },
+    deleteDocument() {
+      this.$axios
+        .$delete(
+          process.env.API_URL + `/api/collections/${this.$route.params.id}`
+        )
         .then((res) => {
-          this.collection = res.data.collection
-          console.log(this.collection)
+          console.log(res)
+          this.$router.back()
         })
     },
-    saveDocument() {},
-    deleteDocument() {},
   },
 }
 </script>

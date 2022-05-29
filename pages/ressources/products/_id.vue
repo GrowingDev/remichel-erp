@@ -6,193 +6,198 @@
       <form-input
         label="Setnummer"
         placeholder="Setnummer"
-        v-model="product.productId"
+        v-model="product.id"
       />
       <form-input
         label="Bezeichnung"
         placeholder="Bezeichnung"
-        v-model="product.productDescription.title"
+        v-model="product.name"
       />
       <form-input
         label="Kollektion"
         placeholder="Kollektion"
-        v-model="product.productDescription.productGroup"
+        v-model="product.collection"
       />
       <form-input
         label="Furniture"
         placeholder="Furniture"
-        v-model="product.productDescription.furniture"
+        v-model="product.furniture"
       />
-      <form-input
-        label="Inlay"
-        placeholder="Inlay"
-        v-model="product.productDescription.inlay"
-      />
-      <form-input
-        label="Etui"
-        placeholder="Etui"
-        v-model="product.productDescription.etui"
-      />
+      <form-input label="Inlay" placeholder="Inlay" v-model="product.inlay" />
+      <form-input label="Etui" placeholder="Etui" v-model="product.etui" />
       <form-input
         label="Verpackung"
         placeholder="Verpackung"
-        v-model="product.productDescription.package"
+        v-model="product.box"
       />
       <form-input
         label="Maße Clip"
         placeholder="Maße Clip"
-        v-model="product.productDescription.size"
+        v-model="product.size"
       />
       <form-input
         label="Gewicht Clip"
         placeholder="Gewicht Clip"
-        v-model="product.productDescription.weight"
+        v-model="product.weight"
       />
-      <form-input
-        label="EAN"
-        placeholder="EAN"
-        v-model="product.productDescription.ean"
-      />
-      <form-input
-        label="EORI"
-        placeholder="EORI"
-        v-model="product.productDescription.eori"
-      />
+      <form-input label="EAN" placeholder="EAN" v-model="product.ean" />
+      <form-input label="EORI" placeholder="EORI" v-model="product.eori" />
 
       <form-input
         label="Verkaufspreis B2C"
         placeholder="Verkaufspreis B2C"
-        v-model="product.productCalculation.price_business"
+        v-model="product.price_b2c"
       />
       <form-input
         label="Verkaufspreis B2B"
         placeholder="Verkaufspreis B2B"
-        v-model="product.productCalculation.price_private"
+        v-model="product.price_b2b"
       />
       <div class="placeholder"></div>
-      <h3>Kalkulation</h3>
+      <h2>Kalkulation</h2>
+
       <form-currency-input
         label="Summe Artikel"
-        v-model="componentCosts"
+        v-model="calcComponents"
         :disabled="true"
       />
-      <form-currency-input label="Komplettierung" v-model="completition" />
-      <form-currency-input label="Überverpackung" v-model="packaging" />
-      <form-currency-input label="Logistik" v-model="logistic" />
+      <form-currency-input
+        label="Komplettierung"
+        v-model="product.calculation.completition"
+      />
+      <form-currency-input
+        label="Überverpackung"
+        v-model="product.calculation.boxing"
+      />
+      <form-currency-input
+        label="Logistik"
+        v-model="product.calculation.logistic"
+      />
       <div class="placeholder"></div>
-      <form-currency-input label="Gesamtsumme" v-model="firstTotal" :disabled="true"/>
+      <form-currency-input
+        label="Gesamtsumme"
+        :disabled="true"
+        v-model="calcArticles"
+      />
       <form-percent-input
         label="Lizenzgebühr Prozentsatz"
-        v-model="licensePercent"
+        v-model="product.calculation.license"
       />
-      <form-currency-input label="Lizenzgebühr" v-model="license" :disabled="true"/>
+      <form-currency-input
+        label="Lizenzgebühr"
+        v-model="calcLicense"
+        :disabled="true"
+      />
       <div class="placeholder"></div>
-      <form-currency-input label="EP Netto" v-model="epNet" :disabled="true" />
-      <form-currency-input label="EH Spanne +100%" v-model="epNet" :disabled="true"/>
-      <form-currency-input label="Gesamt Netto" v-model="totalNet" :disabled="true"/>
-      <form-currency-input label="Mehrwertsteuer 20%" v-model="mwst" :disabled="true"/>
+      <form-currency-input
+        label="EP Netto"
+        v-model="calcEpNetto"
+        :disabled="true"
+      />
+      <form-currency-input
+        label="EH Spanne +100%"
+        v-model="calcMarge"
+        :disabled="true"
+      />
+      <form-currency-input
+        label="Gesamt Netto"
+        v-model="calcMarge"
+        :disabled="true"
+      />
+      <form-currency-input
+        label="Mehrwertsteuer 20%"
+        v-model="calcMwst"
+        :disabled="true"
+      />
 
       <form-currency-input
         label="VK B2C"
-        v-model="vkB2C"
+        v-model="calcPriceB2C"
         :disabled="true"
       />
 
       <div class="placeholder"></div>
-      <h3>Produktkomponent</h3>
-      <product-components
-        :components="product.productComponents"
-        :toogle="toogleSelectComponents"
-        v-if="!select"
-      />
-      <selectable-components
-        v-if="select"
-        :toogle="toogleSelectComponents"
-        :items="product.productComponents"
-      />
-      <h3>Produktbilder</h3>
-      <h4>Front</h4>
-      <div class="img-box furniture-front-image">
-        <img
-          v-if="product.productImages.front"
-          :src="`https://uploads.remichelgroup.com/static/${product.productImages.front}`"
-          onerror="this.style.display='none'"
-        />
+      <div id="action-header">
+        <h2 style="width: fit-content; margin: 0">Komponenten</h2>
+        <button class="btn-add-article" @click="toogleSelectArticles">
+          {{select ? 'Komponenten anzeigen': 'Verfügbare Artikel anzeigen'}}
+        </button>
       </div>
-      <form @submit.prevent="handleSubmit">
-        <div class="form-group">
-          <input type="file" @change="uploadFile" class="btn-upload" />
-        </div>
 
-        <div class="form-group">
-          <button class="btn btn-success btn-block btn-lg btn-submit">
-            Datei Hochladen
-          </button>
+      <select-articles v-if="select" :components="this.product.productComponents"/>
+      <product-components v-else :components="this.product.productComponents" />
+      <div class="placeholder"></div>
+      <h2>Produktbilder</h2>
+      <div class="images">
+        <div class="row-image">
+          <div class="image-box">
+            <h3>Vorderseite</h3>
+            <img
+              class="thumbnail"
+              :src="`http://localhost:4000/images/${this.$route.params.id}-front.png`"
+              alt="Kein Bild vorhanden"
+              onerror="this.src='http://localhost:4000/images/error.png'"
+            />
+          </div>
+          <div class="image-box">
+            <h3>Rückseite</h3>
+            <img
+              class="thumbnail"
+              :src="`http://localhost:4000/images/${this.$route.params.id}-back.png`"
+              alt="Kein Bild vorhanden"
+              onerror="this.src='http://localhost:4000/images/error.png'"
+            />
+          </div>
         </div>
-      </form>
-      <h4>Back</h4>
-      <div class="img-box furniture-front-image">
-        <img
-          v-if="product.productImages.back"
-          :src="`https://uploads.remichelgroup.com/static/${product.productImages.back}`"
-          onerror="this.style.display='none'"
-        />
+        <div class="row-image">
+          <div class="image-box">
+            <h3>Etui</h3>
+            <img
+              class="thumbnail"
+              :src="`http://localhost:4000/images/${this.$route.params.id}-etui.png`"
+              onerror="this.src='http://localhost:4000/images/error.png'"
+            />
+          </div>
+          <div class="image-box">
+            <h3>Box</h3>
+            <img
+              class="thumbnail"
+              :src="`http://localhost:4000/images/${this.$route.params.id}-package.png`"
+              onerror="this.src='http://localhost:4000/images/error.png'"
+            />
+          </div>
+        </div>
       </div>
-      <form @submit.prevent="handleSubmitBack">
-        <div class="form-group">
-          <input class="btn-upload" type="file" @change="uploadFile" />
-        </div>
-
-        <div class="form-group">
-          <button class="btn btn-success btn-block btn-lg btn-submit">
-            Datei Hochladen
-          </button>
-        </div>
-      </form>
-      <h4>Etui</h4>
-      <div class="img-box furniture-front-image">
-        <img
-          v-if="product.productImages.etui"
-          :src="`https://uploads.remichelgroup.com/static/${product.productImages.etui}`"
-          onerror="this.style.display='none'"
+      <div class="placeholder"></div>
+      <form @submit.prevent="onUpload" id="form-upload">
+        <strong> Produktfotos müssen wie folgt bezeichnet werden:</strong>
+        <ul id="list">
+          <li>Vorderseite: Produktnummer-front</li>
+          <li>Rückseite: Produktnummer-back</li>
+          <li>Etui: Produktnummer-etui</li>
+          <li>Verpackung: Produktnummer-package</li>
+          <li>Beispiel: 10000-package</li>
+        </ul>
+        <label for="file-upload" class="btn-upload">Fotos auswählen</label>
+        <input
+          id="file-upload"
+          type="file"
+          name="imagesArray"
+          multiple
+          @change="onChange"
         />
-      </div>
-      <form @submit.prevent="handleSubmitEtui">
-        <div class="form-group">
-          <input type="file" @change="uploadFile" class="btn-upload" />
-        </div>
-
-        <div class="form-group">
-          <button class="btn btn-success btn-block btn-lg btn-submit">
-            Datei Hochladen
+        <Transition>
+          <button class="btn-upload" v-if="this.imagesArray">
+            Jetzt Hochladen
           </button>
-        </div>
-      </form>
-      <h4>Verpackung</h4>
-      <div class="img-box furniture-front-image">
-        <img
-          v-if="product.productImages.etui"
-          :src="`https://uploads.remichelgroup.com/static/${product.productImages.boxing}`"
-          onerror="this.style.display='none'"
-        />
-      </div>
-      <form @submit.prevent="handleSubmitBoxing">
-        <div class="form-group">
-          <input class="btn-upload" type="file" @change="uploadFile" />
-        </div>
-
-        <div class="form-group">
-          <button class="btn btn-success btn-block btn-lg btn-submit">
-            Hochladen
-          </button>
-        </div>
+        </Transition>
       </form>
 
       <div class="list-container">
         <div class="placeholder"></div>
       </div>
 
-      <menu-bar :saveDocument="save" :deleteDocument="deleteProduct" />
+      <menu-bar :saveDocument="saveDocument" :deleteDocument="deleteProduct" />
     </div>
   </div>
 </template>
@@ -204,107 +209,11 @@ import FormInput from '~/components/forms/form-input.vue'
 import FormSelect from '~/components/forms/form-select.vue'
 import FormTitle from '~/components/forms/form-title.vue'
 import menubar from '~/components/menu-bar/menu-bar.vue'
-import ProductComponents from '~/components/lists/product-components/ProductComponents.vue'
-import SelectableComponents from '~/components/lists/SelectableComponents.vue'
+import SelectArticles from '~/components/lists/SelectArticles.vue'
+import ProductComponents from '~/components/lists/ProductComponents.vue'
 import FormPercentInput from '~/components/forms/form-percent-input.vue'
 export default {
   name: 'ProductPage',
-  computed: {
-    product() {
-      return this.$store.state.ressources.products.product
-    },
-    componentCosts() {
-      let sum
-      let arr = this.$store.state.ressources.products.product.productComponents.map(
-        function (component) {
-          let totalCosts = component.cost * component.amount
-          sum + totalCosts
-          return totalCosts
-        }
-      )
-      return arr.reduce(function (acc, val) {
-        return acc + val
-      }, 0)
-    },
-    completition: {
-      // getter
-      get: function () {
-        return this.product.productCalculation.completition
-      },
-      // setter
-      set: function (newValue) {
-        this.product.productCalculation.completition = parseFloat(newValue)
-      },
-    },
-    packaging: {
-      // getter
-      get: function () {
-        return this.product.productCalculation.packaging
-      },
-      // setter
-      set: function (newValue) {
-        this.product.productCalculation.packaging = parseFloat(newValue)
-      },
-    },
-    logistic: {
-      // getter
-      get: function () {
-        return this.product.productCalculation.logistic
-      },
-      // setter
-      set: function (newValue) {
-        this.product.productCalculation.logistic = parseFloat(newValue)
-      },
-    },
-
-    licensePercent: {
-      // getter
-      get: function () {
-        return this.product.productCalculation.licensePercent
-      },
-      // setter
-      set: function (newValue) {
-        this.product.productCalculation.licensePercent = parseFloat(newValue)
-      },
-    },
-    license() {
-      let onePercent = this.firstTotal / 100
-      let sum = onePercent * this.product.productCalculation.licensePercent
-      return sum
-    },
-    epNet() {
-      let net = this.license + this.firstTotal
-
-      return net
-    },
-    retailProfit() {
-      return this.epNet
-    },
-    totalNet() {
-      return this.epNet * 2
-    },
-    mwst() {
-      let totalNet = this.epNet * 2
-
-      return totalNet * 0.2
-    },
-    vkB2C(){
-      return this.mwst + this.epNet * 2
-    },
-    firstTotal() {
-      let firstTotal =
-        this.componentCosts +
-        this.product.productCalculation.completition +
-        this.product.productCalculation.packaging +
-        this.product.productCalculation.logistic
-      return firstTotal
-    },
-  },
-  async beforeMount() {
-    this.$store.dispatch('ressources/products/initProductState', {
-      id: this.$route.params.id,
-    })
-  },
   components: {
     FormTitle,
     FormCurrencyInput,
@@ -313,117 +222,135 @@ export default {
     menubar,
     FormImages,
     ProductComponents,
-    SelectableComponents,
+    SelectArticles,
     FormPercentInput,
   },
   data() {
     return {
-      files: null,
+      imagesArray: null,
       select: false,
+      components: [],
+      total: 0,
+      product: {
+        calculation: {
+          completition: null,
+          boxing: null,
+          logistic: null,
+        },
+        img_urls: {},
+        productComponents: [],
+      },
     }
   },
+  async mounted() {
+    if (this.$route.params.id !== 'new') {
+      this.product = await fetch(
+        process.env.API_URL + `/api/products/${this.$route.params.id}`
+      ).then((res) => res.json())
+          this.components = await fetch(
+        process.env.API_URL + `/api/products/components/${this.$route.params.id}`
+      ).then((res) => res.json())
+    }
+  },
+  computed: {
+    calcComponents() {
+
+      this.components.forEach(component => {
+        const sum = component.amount * component.price;
+        this.total = this.total + sum
+      });
+      return this.total.toFixed(2)
+    },
+    calcArticles() {
+      const completition = parseInt(this.product.calculation.completition)
+      const packaging = parseInt(this.product.calculation.boxing)
+      const logistic = parseInt(this.product.calculation.logistic)
+      const components = parseInt(this.calcComponents)
+      let result = completition + packaging + logistic + components
+
+      return result
+    },
+    calcLicense() {
+      let onePercent = this.calcArticles / 100
+
+      let sum = onePercent * parseInt(this.product.calculation.license)
+
+      return sum
+    },
+    calcEpNetto() {
+      const netto = this.calcArticles + this.calcLicense
+      return netto.toFixed(2)
+    },
+    calcMarge() {
+      return this.calcEpNetto * 2
+    },
+
+    calcTotalNet() {
+      return this.calcMarge
+    },
+    calcMwst() {
+      let mwst = this.calcMarge * 0.2
+      return mwst.toFixed(2)
+    },
+    calcPriceB2C() {
+      let price = this.calcTotalNet * 1.2
+      return price.toFixed(2)
+    },
+  },
+
   methods: {
-    toogleSelectComponents() {
+    toogleSelectArticles() {
       this.select = !this.select
     },
     uploadFile(event) {
       this.files = event.target.files
     },
 
-    updateList() {},
-    save() {
-      if (this.$route.params.id == 'new') {
-        this.createProduct()
-      } else {
-        this.updateProduct()
-      }
+    onChange(event) {
+      this.imagesArray = event.target.files
     },
-    handleSubmit() {
+    onUpload() {
       const formData = new FormData()
-      for (const i of Object.keys(this.files)) {
-        formData.append('files', this.files[i])
+      for (const i of Object.keys(this.imagesArray)) {
+        formData.append('imagesArray', this.imagesArray[i])
       }
       this.$axios
-        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
+        .post(process.env.API_URL + `/api/images/`, formData, {})
         .then((res) => {
-          this.product.productImages.front = res.data
+          console.log(res)
         })
     },
-    handleSubmitBack() {
-      const formData = new FormData()
-      for (const i of Object.keys(this.files)) {
-        formData.append('files', this.files[i])
-      }
-      this.$axios
-        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
-        .then((res) => {
-          this.product.productImages.back = res.data
-        })
-    },
-    handleSubmitEtui() {
-      const formData = new FormData()
-      for (const i of Object.keys(this.files)) {
-        formData.append('files', this.files[i])
-      }
-      this.$axios
-        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
-        .then((res) => {
-          this.product.productImages.etui = res.data
-        })
-    },
-    handleSubmitBoxing() {
-      const formData = new FormData()
-      for (const i of Object.keys(this.files)) {
-        formData.append('files', this.files[i])
-      }
-      this.$axios
-        .post('https://uploads.remichelgroup.com/uploadFront/', formData, {})
-        .then((res) => {
-          this.product.productImages.boxing = res.data
-        })
-    },
-    createProduct() {
-      this.$axios
-        .$post('https://api.remichelgroup.com/', {
-          query: `
-       mutation CREATEPRODUCT($input: productInput!) {
-        createProduct(input: $input) {
-          productDescription {
-            title
-          }
-        }
-        }
-        `,
-          fetchPolicy: 'no-cache',
-          variables: {
-            input: this.product,
-          },
-        })
-        .then((res) => {
-          this.$router.back()
-        })
-    },
-    updateProduct() {
-      this.$store.dispatch('ressources/products/updateProduct')
-    },
-    deleteProduct(id) {
-      console.log('delete Product', this.product.id)
+    saveDocument() {
+      if (this.$route.params.id !== 'new') {
 
-      this.$axios
-        .$post('https://api.remichelgroup.com/', {
-          query: `mutation DELETEPRODUCT($id: ID!) {
-                    deleteProduct(id: $id) {
-                id
-            }
-            }`,
-          fetchPolicy: 'no-cache',
-          variables: {
-            id: this.product.id,
-          },
+        this.$axios
+          .$put(
+            process.env.API_URL + `/api/products/${this.$route.params.id}`,
+            this.product
+          )
+          .then((res) => {
+            this.$router.back()
+          })
+      } else {
+        this.product.productComponents.push({
+          productId: 10001,
+          articleId: 10002,
+          title: 'testcomponent',
+          description: '',
+          amount: 2,
         })
+
+        this.$axios
+          .$post(process.env.API_URL + `/api/products/`, this.product)
+          .then((res) => {
+            this.$router.back()
+          })
+      }
+    },
+    deleteProduct() {
+      this.$axios
+        .$delete(process.env.API_URL + `/api/products/${this.$route.params.id}`)
         .then((res) => {
-          this.product = res.data.product
-          console.log(this.product)
           this.$router.back()
         })
     },
@@ -433,6 +360,41 @@ export default {
 
 
 <style lang="scss" scoped >
+h2 {
+  font-size: 1.953rem;
+  width: 100%;
+  border-bottom: 2px solid black;
+  justify-self: flex-start;
+  margin-bottom: 40px;
+}
+h3 {
+  margin-top: 1rem;
+  font-size: 1.563rem;
+}
+#action-header {
+  display: flex;
+  flex-direction: row;
+  justify-items: space-between;
+  align-items: center;
+
+  padding-bottom: 40px;
+}
+ul {
+  list-style: none;
+  padding: 0;
+}
+.row-image {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 1rem;
+}
+.image-box {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
 #product {
   padding: 100px;
   text-align: start;
@@ -443,12 +405,6 @@ export default {
   float: right;
   width: calc(100vw - 320px);
 
-  h3 {
-    justify-self: flex-start;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
-    margin-left: 5px;
-  }
   #product-basedata {
     background: white;
     padding: 50px;
@@ -457,13 +413,14 @@ export default {
   }
 }
 .placeholder {
-  margin: 25px;
+  margin: 80px;
 }
 .btn-upload {
   background: #303030 !important;
   color: white;
   width: 300px;
   border: none;
+  width: 100%;
 }
 
 .btn-submit {
@@ -473,5 +430,70 @@ export default {
   padding: 5px;
   width: 300px;
   margin-top: 10px;
+}
+.images {
+  margin-top: 40px;
+  width: 100%;
+  text-align: left;
+}
+#list > li:hover {
+  background: none;
+}
+input[type='file'] {
+  opacity: 0; /* make transparent */
+  z-index: -1; /* move under anything else */
+  position: absolute; /* don't let it take up space */
+}
+.btn-upload {
+  padding: 1rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  color: #868686;
+  font-size: 18px;
+  width: 100%;
+  text-transform: uppercase;
+  background: #303030;
+  border: none;
+  margin-top: 40px;
+  text-align: center;
+}
+.btn-upload:hover {
+  color: white;
+  cursor: pointer;
+}
+
+#form-upload {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+}
+.v-enter-active,
+.v-leave-active {
+  transition: opacity 0.5s ease;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+.btn-add-article {
+  color: #868686;
+  font-size: 14px;
+  width: fit-content;
+  padding: 16px;
+
+  height: max-content;
+  justify-self: center;
+  text-transform: uppercase;
+  background: #303030;
+  border: none;
+  margin-left: auto;
+  text-align: center;
+  height: 100%;
+}
+.btn-add-article:hover {
+  color: white;
+  cursor: pointer;
 }
 </style>

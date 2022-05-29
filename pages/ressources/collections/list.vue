@@ -1,10 +1,10 @@
 <template>
   <div class="page">
     <div class="page-header">
-      <h2 v-if="this.list.length !== 0">kollektionen</h2>
+      <form-title title="kollektionen"/>
     </div>
     <div class="page-body">
-      <table-collections :listItems="list" />
+      <table-collections :listItems="collections" />
     </div>
 
     <menu-bar :openDocument="openNewDocument" />
@@ -18,6 +18,7 @@ import MenuBar from '~/components/menu-bar/menu-bar'
 import LoadingSpinner from '~/components/pages/loading-spinner'
 import ErrorOccured from '@/components/pages/error-occured'
 import TableCollections from '~/components/tables/ressources/table-collections.vue'
+import FormTitle from '~/components/forms/form-title.vue'
 
 export default {
   name: 'list',
@@ -28,46 +29,32 @@ export default {
     LoadingSpinner,
     ErrorOccured,
     TableCollections,
+    FormTitle
   },
-  beforeMount() {
-    this.getCollections()
-  },
+
   computed: {
     onboarding() {
       return this.$store.state.ressources.collections.onboarding
     },
+    collections() {
+      return this.$store.state.ressources.collections.list
+    },
+  },
+  async fetch() {
+    let collections = await fetch(
+      process.env.API_URL + '/api/collections'
+    ).then((res) => res.json())
+    this.$store.commit('ressources/collections/setCollections', collections)
   },
   data: () => {
     return {
       doc: false,
-      list: [],
-      typ: '',
       page: 0,
     }
   },
   methods: {
     openNewDocument() {
       this.$router.push(`/ressources/collections/new`)
-    },
-    async getCollections() {
-      this.list = await this.$axios
-        .$post('https://api.remichelgroup.com/', {
-          query: `
-      query {
-        collections {
-          id
-          collectionId
-          title
-          description
-          navigationRoute
-        }
-      }
-        `,
-        })
-        .then((res) => {
-          return res.data.collections
-        })
-      console.log(this.list)
     },
   },
 }
@@ -84,6 +71,7 @@ export default {
     text-transform: uppercase;
   }
 }
+
 .page-body {
   display: flex;
   flex-direction: column;

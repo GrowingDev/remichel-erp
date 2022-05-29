@@ -12,10 +12,10 @@
       :key="listItem.id"
       @click="openListItem(listItem.id)"
     >
-      <label>{{ listItem.supplierId }}</label>
-      <label>{{ listItem.billingAddress.title }}</label>
-      <label>{{ listItem.contactPerson.email }}</label>
-      <label>{{ listItem.contactPerson.phone01 }}</label>
+      <label>{{ listItem.id }}</label>
+      <label>{{ listItem.company }}</label>
+      <label>{{ listItem.contact.mail }}</label>
+      <label>{{ listItem.contact.phone_01 }}</label>
     </div>
   </div>
 </template>
@@ -35,7 +35,7 @@ export default {
   },
   data: () => {
     return {
-      headers: ['lieferantennr', 'Bezeichung', 'E-mail', 'telefon'],
+      headers: ['lieferantennr', 'Lieferant', 'E-mail', 'telefon'],
     }
   },
 }

@@ -1,5 +1,6 @@
 export const state = () => ({
   list: [],
+  collection: null,
   onboarding: [
     {
       title: 'Keine Kollektionen gefunden',
@@ -7,51 +8,54 @@ export const state = () => ({
         'Klicke einfach auf das + Symbol in der rechten Menüleiste , um deine erste Kollektion anzulegen.',
       action: {
         active: true,
-        title: 'Was ist eine Kollektion?'
+        title: 'Was ist eine Kollektion?',
       },
     },
     {
       title: 'Was ist ein Kollektion?',
-      description:
-        'Eine Kollektion ist...',
+      description: 'Eine Kollektion ist...',
       action: {
         active: true,
-        title: 'Weiter'
+        title: 'Weiter',
       },
     },
     {
       title: 'Was ist eine Kollektion?',
-      description:
-        'Eine Kollektion kann...',
+      description: 'Eine Kollektion kann...',
       action: {
         active: true,
-        title: 'Weiter'
+        title: 'Weiter',
       },
     },
     {
       title: 'Was ist eine Kollektion?',
-      description:
-        'Ende',
+      description: 'Ende',
       action: {
         active: false,
-        title: 'Weiter'
+        title: 'Weiter',
       },
     },
   ],
 })
 
 export const mutations = {
-  add (state, text) {
+  add(state, text) {
     state.list.push({
       text,
       done: false,
-      id: Date.now()
+      id: Date.now(),
     })
   },
-  remove (state, todo) {
-    state.list = state.list.filter(item => item.id !== todo.id)
+  remove(state, todo) {
+    state.list = state.list.filter((item) => item.id !== todo.id)
   },
-  toggle (state, todo) {
+  toggle(state, todo) {
     todo.done = !todo.done
-  }
+  },
+  setCollections(state, collections) {
+    state.list = collections
+  },
+  setCollection(state, collection) {
+    state.collection = collection
+  },
 }
