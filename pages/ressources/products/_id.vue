@@ -134,18 +134,18 @@
             <h3>Vorderseite</h3>
             <img
               class="thumbnail"
-              :src="`http://localhost:4000/images/${this.$route.params.id}-front.png`"
+              :src="`https://api.andreasbenz.org/images/${this.$route.params.id}-front.png`"
               alt="Kein Bild vorhanden"
-              onerror="this.src='http://localhost:4000/images/error.png'"
+              onerror="this.src='https://api.andreasbenz.org/images/error.png'"
             />
           </div>
           <div class="image-box">
             <h3>Rückseite</h3>
             <img
               class="thumbnail"
-              :src="`http://localhost:4000/images/${this.$route.params.id}-back.png`"
+              :src="`https://api.andreasbenz.org/images/${this.$route.params.id}-back.png`"
               alt="Kein Bild vorhanden"
-              onerror="this.src='http://localhost:4000/images/error.png'"
+              onerror="this.src='https://api.andreasbenz.org/images/error.png'"
             />
           </div>
         </div>
@@ -154,16 +154,16 @@
             <h3>Etui</h3>
             <img
               class="thumbnail"
-              :src="`http://localhost:4000/images/${this.$route.params.id}-etui.png`"
-              onerror="this.src='http://localhost:4000/images/error.png'"
+              :src="`https://api.andreasbenz.org/images/${this.$route.params.id}-etui.png`"
+              onerror="this.src='https://api.andreasbenz.org/images/error.png'"
             />
           </div>
           <div class="image-box">
             <h3>Box</h3>
             <img
               class="thumbnail"
-              :src="`http://localhost:4000/images/${this.$route.params.id}-package.png`"
-              onerror="this.src='http://localhost:4000/images/error.png'"
+              :src="`https://api.andreasbenz.org/images/${this.$route.params.id}-package.png`"
+              onerror="this.src='https://api.andreasbenz.org/images/error.png'"
             />
           </div>
         </div>

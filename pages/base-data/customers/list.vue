@@ -4,7 +4,7 @@
   <form-title title="Kunden"/>
     </div>
     <div class="page-body">
-        <table-customers
+        <table-customers v-if="Array.isArray(customers)"
       :listItems="customers"/>
     </div>
    <menu-bar :openDocument="openNewDocument" />

@@ -26,18 +26,18 @@
         <div class="image-box">
           <img
             class="thumbnail"
-            :src="`http://localhost:4000/images/${this.$route.params.id}-print-front.png`"
+            :src="`https://api.andreasbenz.org/images/${this.$route.params.id}-print-front.png`"
             alt="Kein Bild vorhanden"
-            onerror="this.src='http://localhost:4000/images/error.png'"
+            onerror="this.src='https://api.andreasbenz.org/images/error.png'"
           />
           <h3>Vorderseite</h3>
         </div>
         <div class="image-box">
           <img
             class="thumbnail"
-            :src="`http://localhost:4000/images/${this.$route.params.id}-print-back.png`"
+            :src="`https://api.andreasbenz.org/images/${this.$route.params.id}-print-back.png`"
             alt="Kein Bild vorhanden"
-            onerror="this.src='http://localhost:4000/images/error.png'"
+            onerror="this.src='https://api.andreasbenz.org/images/error.png'"
           />
           <h3>Rückseite</h3>
         </div>
